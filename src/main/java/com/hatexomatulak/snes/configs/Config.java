@@ -9,8 +9,8 @@ import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
-import org.springframework.xml.xsd.SimpleXsdSchema;
-import org.springframework.xml.xsd.XsdSchema;
+import org.springframework.xml.xsd.XsdSchemaCollection;
+import org.springframework.xml.xsd.commons.CommonsXsdSchemaCollection;
 
 @EnableWs
 @Configuration
@@ -24,17 +24,50 @@ public class Config extends WsConfigurerAdapter {
     }
 
     @Bean(name = "news")
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema) {
+    public DefaultWsdl11Definition defaultWsdl11Definition1() {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("NewsPort");
         wsdl11Definition.setLocationUri("/service/news");
         wsdl11Definition.setTargetNamespace("http://www.project.com/xml/news");
-        wsdl11Definition.setSchema(countriesSchema);
+        wsdl11Definition.setSchemaCollection(newsSchema());
         return wsdl11Definition;
     }
 
-    @Bean
-    public XsdSchema countriesSchema() {
-        return new SimpleXsdSchema(new ClassPathResource("news.xsd"));
+    @Bean(name = "category")
+    public DefaultWsdl11Definition defaultWsdl11Definition2() {
+        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+        wsdl11Definition.setPortTypeName("CategoryPort");
+        wsdl11Definition.setLocationUri("/service/category");
+        wsdl11Definition.setTargetNamespace("http://www.project.com/xml/category");
+        wsdl11Definition.setSchemaCollection(schemaCollection());
+        return wsdl11Definition;
     }
+
+//    @Bean
+//    public XsdSchema newsSchema() {
+//        return new SimpleXsdSchema(new ClassPathResource("news.xsd"));
+//    }
+
+    @Bean
+    public XsdSchemaCollection newsSchema() {
+        CommonsXsdSchemaCollection commonsXsdSchemaCollection = new CommonsXsdSchemaCollection(
+                new ClassPathResource("types.xsd"),
+                new ClassPathResource("news.xsd"));
+        commonsXsdSchemaCollection.setInline(true);
+        return commonsXsdSchemaCollection;
+    }
+
+    @Bean
+    public XsdSchemaCollection schemaCollection() {
+        CommonsXsdSchemaCollection commonsXsdSchemaCollection = new CommonsXsdSchemaCollection(
+                new ClassPathResource("types.xsd"),
+                new ClassPathResource("category.xsd"));
+        commonsXsdSchemaCollection.setInline(true);
+        return commonsXsdSchemaCollection;
+    }
+
+//    @Bean
+//    public XsdSchema categorySchema() {
+//        return new SimpleXsdSchema(new ClassPathResource("category.xsd"));
+//    }
 }

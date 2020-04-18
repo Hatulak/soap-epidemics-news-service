@@ -11,59 +11,62 @@ package com.project.xml.news;
 import com.project.xml.types.News;
 
 import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="News" type="{http://www.project.com/xml/types}news"/>
+ *         &lt;element name="News" type="{http://www.project.com/xml/types}news" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
         "news"
 })
-@XmlRootElement(name = "GetNewsResponse")
-public class GetNewsResponse {
+@XmlRootElement(name = "GetAllNewsResponse")
+public class GetAllNewsResponse {
 
-    @XmlElement(name = "News", required = true)
-    protected News news;
+    @XmlElement(name = "News")
+    protected List<News> news;
 
     /**
      * Gets the value of the news property.
      *
-     * @return
-     *     possible object is
-     *     {@link News }
-     *     
-     */
-    public News getNews() {
-        return news;
-    }
-
-    /**
-     * Sets the value of the news property.
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the news property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link News }
-     *     
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getNews().add(newItem);
+     * </pre>
+     *
+     *
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link News }
      */
-    public void setNews(News value) {
-        this.news = value;
+    public List<News> getNews() {
+        if (news == null) {
+            news = new ArrayList<News>();
+        }
+        return this.news;
     }
 
 }

@@ -1,11 +1,9 @@
 package com.hatexomatulak.snes.models;
 
-import com.project.xml.news.News;
+import com.project.xml.types.News;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -16,20 +14,26 @@ import java.util.Date;
 public class NewsDTO {
     @Id
     @GeneratedValue
-    private Long id;
+    private Long newsId;
     @NonNull
     private String name;
     @NonNull
     private String desc;
     @NonNull
     private Date date;
+    @ManyToOne
+    @NonNull
+    @JoinColumn(name = "categoryId", nullable = false)
+    private CategoryDTO category;
 
     public News castToNews() {
         News news = new News();
-        news.setId(id);
+        news.setId(newsId);
         news.setName(name);
         news.setDesc(desc);
         news.setDate(date.toString());
+        news.setCategoryId(category.getCategoryId());
+        news.setCategoryName(category.getName());
         return news;
     }
 }

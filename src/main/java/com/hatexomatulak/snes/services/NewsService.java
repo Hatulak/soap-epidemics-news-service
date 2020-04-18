@@ -4,13 +4,10 @@ import com.hatexomatulak.snes.models.NewsDTO;
 import com.hatexomatulak.snes.repositories.NewsRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,10 +22,7 @@ public class NewsService {
         return newsRepository.findAll();
     }
 
-
-    @SneakyThrows
     public Optional<NewsDTO> findById(Long id) {
-        newsRepository.save(new NewsDTO("test name", "test desc ", new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString())));
         return newsRepository.findById(id);
     }
 

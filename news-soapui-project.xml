@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project activeEnvironment="Default" name="news" resourceRoot="" soapui-version="4.6.4"
-                    xmlns:con="http://eviware.com/soapui/config">
+<con:soapui-project activeEnvironment="Default" name="news" resourceRoot="" soapui-version="4.6.4" abortOnError="false"
+                    runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config">
     <con:settings/>
     <con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="NewsPortSoap11" type="wsdl"
                    bindingName="{http://www.project.com/xml/news}NewsPortSoap11" soapVersion="1_1" anonymous="optional"
                    definition="http://localhost:8080/service/news.wsdl"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <con:settings/>
+
         <con:definitionCache type="TEXT" rootPart="http://localhost:8080/service/news.wsdl">
             <con:part>
                 <con:url>http://localhost:8080/service/news.wsdl</con:url>
-                <con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.project.com/xml/news" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.project.com/xml/news" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.project.com/xml/news">
+                <con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.project.com/xml/news" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch0="http://www.project.com/xml/types" xmlns:sch1="http://www.project.com/xml/news" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.project.com/xml/news">
   <wsdl:types>
-    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.project.com/xml/news" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.project.com/xml/types" xmlns:tns="http://www.project.com/xml/types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="news">
+        <xs:sequence>
+          <xs:element name="id" type="xs:long"/>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="desc" type="xs:string"/>
+          <xs:element name="date" type="xs:string"/>
+          <xs:element name="categoryId" type="xs:long"/>
+          <xs:element name="categoryName" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.project.com/xml/news" xmlns:sn="http://www.project.com/xml/types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://www.project.com/xml/types"/>
       <xs:element name="GetNewsByIdRequest">
         <xs:complexType>
           <xs:sequence>
@@ -20,30 +34,95 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="GetNewsResponse">
+      <xs:element name="DeleteNewsByIdRequest">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="News" type="tns:news"/>
+            <xs:element name="id" type="xs:long"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:complexType name="news">
-        <xs:sequence>
-          <xs:element name="id" type="xs:long"/>
-          <xs:element name="name" type="xs:string"/>
-          <xs:element name="desc" type="xs:string"/>
-          <xs:element name="date" type="xs:string"/>
-        </xs:sequence>
-      </xs:complexType>
+      <xs:element name="GetAllNewsRequest">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="CreateNewsRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="desc" type="xs:string"/>
+            <xs:element name="date" type="xs:string"/>
+            <xs:element name="categoryId" type="xs:long"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAllNewsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="News" type="sn:news"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetNewsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="News" type="sn:news"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteNewsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="result" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateNewsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="News" type="sn:news"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:schema>
   </wsdl:types>
+  <wsdl:message name="GetAllNewsResponse">
+    <wsdl:part element="tns:GetAllNewsResponse" name="GetAllNewsResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateNewsResponse">
+    <wsdl:part element="tns:CreateNewsResponse" name="CreateNewsResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DeleteNewsByIdRequest">
+    <wsdl:part element="tns:DeleteNewsByIdRequest" name="DeleteNewsByIdRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DeleteNewsResponse">
+    <wsdl:part element="tns:DeleteNewsResponse" name="DeleteNewsResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetAllNewsRequest">
+    <wsdl:part element="tns:GetAllNewsRequest" name="GetAllNewsRequest"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="GetNewsByIdRequest">
     <wsdl:part element="tns:GetNewsByIdRequest" name="GetNewsByIdRequest"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="GetNewsResponse">
     <wsdl:part element="tns:GetNewsResponse" name="GetNewsResponse"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="CreateNewsRequest">
+    <wsdl:part element="tns:CreateNewsRequest" name="CreateNewsRequest"></wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="NewsPort">
+    <wsdl:operation name="GetAllNews">
+      <wsdl:input message="tns:GetAllNewsRequest" name="GetAllNewsRequest"></wsdl:input>
+      <wsdl:output message="tns:GetAllNewsResponse" name="GetAllNewsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNews">
+      <wsdl:input message="tns:CreateNewsRequest" name="CreateNewsRequest"></wsdl:input>
+      <wsdl:output message="tns:CreateNewsResponse" name="CreateNewsResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteNewsById">
+      <wsdl:input message="tns:DeleteNewsByIdRequest" name="DeleteNewsByIdRequest"></wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteNews">
+      <wsdl:output message="tns:DeleteNewsResponse" name="DeleteNewsResponse"></wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetNewsById">
       <wsdl:input message="tns:GetNewsByIdRequest" name="GetNewsByIdRequest"></wsdl:input>
     </wsdl:operation>
@@ -53,6 +132,36 @@
   </wsdl:portType>
   <wsdl:binding name="NewsPortSoap11" type="tns:NewsPort">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetAllNews">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="GetAllNewsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetAllNewsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNews">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="CreateNewsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="CreateNewsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteNewsById">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="DeleteNewsByIdRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteNews">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="DeleteNewsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetNewsById">
       <soap:operation soapAction=""/>
       <wsdl:input name="GetNewsByIdRequest">
@@ -98,7 +207,13 @@
       </news:GetNewsResponse>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request>
+                <con:credentials>
+                    <con:authType>Global HTTP Settings</con:authType>
+                </con:credentials>
+                <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                <con:jmsPropertyConfig/>
                 <con:wsaConfig mustUnderstand="NONE" version="200508"/>
+                <con:wsrmConfig version="1.2"/>
             </con:call>
         </con:operation>
         <con:operation isOneWay="false" action="" name="GetNewsById" bindingOperationName="GetNewsById" type="One-Way"
@@ -115,7 +230,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <news:GetNewsByIdRequest>
-         <news:id>1</news:id>
+         <news:id>10</news:id>
       </news:GetNewsByIdRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request>
@@ -126,6 +241,118 @@
                 <con:jmsPropertyConfig/>
                 <con:wsaConfig mustUnderstand="NONE" version="200508"
                                action="http://www.project.com/xml/news/NewsPort/GetNewsByIdRequest"/>
+                <con:wsrmConfig version="1.2"/>
+            </con:call>
+        </con:operation>
+        <con:operation isOneWay="false" action="" name="GetAllNews" bindingOperationName="GetAllNews"
+                       type="Request-Response" outputName="GetAllNewsResponse" inputName="GetAllNewsRequest"
+                       receivesAttachments="false" sendsAttachments="false" anonymous="optional">
+            <con:settings/>
+            <con:call name="Request 1">
+                <con:settings>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                    </con:setting>
+                </con:settings>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8080/service/news</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:news="http://www.project.com/xml/news">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <news:GetAllNewsRequest/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:credentials>
+                    <con:authType>Global HTTP Settings</con:authType>
+                </con:credentials>
+                <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                <con:jmsPropertyConfig/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"
+                               action="http://www.project.com/xml/news/NewsPort/GetAllNewsRequest"/>
+                <con:wsrmConfig version="1.2"/>
+            </con:call>
+        </con:operation>
+        <con:operation isOneWay="false" action="" name="CreateNews" bindingOperationName="CreateNews"
+                       type="Request-Response" inputName="CreateNewsRequest" sendsAttachments="false"
+                       anonymous="optional" outputName="CreateNewsResponse" receivesAttachments="false">
+            <con:settings/>
+            <con:call name="Request 1">
+                <con:settings>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                    </con:setting>
+                </con:settings>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8080/service/news</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:news="http://www.project.com/xml/news">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <news:CreateNewsRequest>
+         <news:name>uwaga klątwa faraona </news:name>
+         <news:desc>taka  sprawa  </news:desc>
+         <news:date>31/12/1998 12:12:12</news:date>
+         <news:categoryId>2</news:categoryId>
+      </news:CreateNewsRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:credentials>
+                    <con:authType>Global HTTP Settings</con:authType>
+                </con:credentials>
+                <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                <con:jmsPropertyConfig/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"
+                               action="http://www.project.com/xml/news/NewsPort/CreateNewsRequest"/>
+                <con:wsrmConfig version="1.2"/>
+            </con:call>
+        </con:operation>
+        <con:operation isOneWay="false" action="" name="DeleteNewsById" bindingOperationName="DeleteNewsById"
+                       type="One-Way" inputName="DeleteNewsByIdRequest" sendsAttachments="false" anonymous="optional">
+            <con:settings/>
+            <con:call name="Request 1">
+                <con:settings>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                    </con:setting>
+                </con:settings>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8080/service/news</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:news="http://www.project.com/xml/news">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <news:DeleteNewsByIdRequest>
+         <news:id>4</news:id>
+      </news:DeleteNewsByIdRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:credentials>
+                    <con:authType>Global HTTP Settings</con:authType>
+                </con:credentials>
+                <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                <con:jmsPropertyConfig/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"
+                               action="http://www.project.com/xml/news/NewsPort/DeleteNewsByIdRequest"/>
+                <con:wsrmConfig version="1.2"/>
+            </con:call>
+        </con:operation>
+        <con:operation isOneWay="false" action="" name="DeleteNews" bindingOperationName="DeleteNews"
+                       type="Notification" outputName="DeleteNewsResponse" inputName="" receivesAttachments="false"
+                       anonymous="optional">
+            <con:settings/>
+            <con:call name="Request 1">
+                <con:settings/>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8080/service/news</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:news="http://www.project.com/xml/news">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <news:DeleteNewsResponse>
+         <news:result>?</news:result>
+      </news:DeleteNewsResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:credentials>
+                    <con:authType>Global HTTP Settings</con:authType>
+                </con:credentials>
+                <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                <con:jmsPropertyConfig/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"/>
                 <con:wsrmConfig version="1.2"/>
             </con:call>
         </con:operation>

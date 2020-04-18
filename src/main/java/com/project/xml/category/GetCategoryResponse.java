@@ -6,56 +6,56 @@
 //
 
 
-package com.project.xml.news;
+package com.project.xml.category;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="category" type="{http://www.project.com/xml/category}category"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "id"
+        "category"
 })
-@XmlRootElement(name = "GetNewsByIdRequest")
-public class GetNewsByIdRequest {
+@XmlRootElement(name = "GetCategoryResponse")
+public class GetCategoryResponse {
 
-    protected long id;
+    @XmlElement(required = true)
+    protected Category category;
 
     /**
-     * Gets the value of the id property.
-     * 
+     * Gets the value of the category property.
+     *
+     * @return possible object is
+     * {@link Category }
      */
-    public long getId() {
-        return id;
+    public Category getCategory() {
+        return category;
     }
 
     /**
-     * Sets the value of the id property.
-     * 
+     * Sets the value of the category property.
+     *
+     * @param value allowed object is
+     *              {@link Category }
      */
-    public void setId(long value) {
-        this.id = value;
+    public void setCategory(Category value) {
+        this.category = value;
     }
 
 }

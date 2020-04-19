@@ -6,47 +6,49 @@
 //
 
 
-package com.project.xml.category;
+package com.project.xml.types;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
- * 
+ * <p>Java class for file complex type.
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="file">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="fileData" type="{http://www.w3.org/2001/XMLSchema}base64Binary"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-        "name"
+@XmlType(name = "file", propOrder = {
+        "name",
+        "fileData"
 })
-@XmlRootElement(name = "CreateCategoryRequest")
-public class CreateCategoryRequest {
+public class File {
 
     @XmlElement(required = true)
     protected String name;
+    @XmlElement(required = true)
+    protected byte[] fileData;
 
     /**
      * Gets the value of the name property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is
+     * {@link String }
      */
     public String getName() {
         return name;
@@ -55,13 +57,31 @@ public class CreateCategoryRequest {
     /**
      * Sets the value of the name property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setName(String value) {
         this.name = value;
+    }
+
+    /**
+     * Gets the value of the fileData property.
+     *
+     * @return possible object is
+     * byte[]
+     */
+    public byte[] getFileData() {
+        return fileData;
+    }
+
+    /**
+     * Sets the value of the fileData property.
+     *
+     * @param value allowed object is
+     *              byte[]
+     */
+    public void setFileData(byte[] value) {
+        this.fileData = value;
     }
 
 }

@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="category" resourceRoot="" soapui-version="4.6.4"
+                    xmlns:con="http://eviware.com/soapui/config">
+    <con:settings/>
+    <con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="CategoryPortSoap11" type="wsdl"
+                   bindingName="{http://www.project.com/xml/category}CategoryPortSoap11" soapVersion="1_1"
+                   anonymous="optional" definition="http://localhost:8080/service/category.wsdl"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <con:settings/>
+        <con:definitionCache type="TEXT" rootPart="http://localhost:8080/service/category.wsdl">
+            <con:part>
+                <con:url>http://localhost:8080/service/category.wsdl</con:url>
+                <con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.project.com/xml/category" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch0="http://www.project.com/xml/types" xmlns:sch1="http://www.project.com/xml/category" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.project.com/xml/category">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.project.com/xml/types" xmlns:tns="http://www.project.com/xml/types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="news">
+        <xs:sequence>
+          <xs:element name="id" type="xs:long"/>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="desc" type="xs:string"/>
+          <xs:element name="date" type="xs:string"/>
+          <xs:element name="categoryId" type="xs:long"/>
+          <xs:element name="categoryName" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.project.com/xml/category" xmlns:sn="http://www.project.com/xml/types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://www.project.com/xml/types"/>
+      <xs:element name="GetCategoryByIdRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAllCategoryRequest">
+        <xs:complexType/>
+      </xs:element>
+      <xs:element name="CreateCategoryRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetAllCategoryResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="category" type="tns:category"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetCategoryResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="category" type="tns:category"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CreateCategoryResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="category" type="tns:category"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteCategoryByIdRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeleteCategoryResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="result" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="category">
+        <xs:sequence>
+          <xs:element name="id" type="xs:long"/>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="news" type="sn:news"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="GetAllCategoryRequest">
+    <wsdl:part element="tns:GetAllCategoryRequest" name="GetAllCategoryRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DeleteCategoryByIdRequest">
+    <wsdl:part element="tns:DeleteCategoryByIdRequest" name="DeleteCategoryByIdRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetCategoryResponse">
+    <wsdl:part element="tns:GetCategoryResponse" name="GetCategoryResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetCategoryByIdRequest">
+    <wsdl:part element="tns:GetCategoryByIdRequest" name="GetCategoryByIdRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateCategoryResponse">
+    <wsdl:part element="tns:CreateCategoryResponse" name="CreateCategoryResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateCategoryRequest">
+    <wsdl:part element="tns:CreateCategoryRequest" name="CreateCategoryRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetAllCategoryResponse">
+    <wsdl:part element="tns:GetAllCategoryResponse" name="GetAllCategoryResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DeleteCategoryResponse">
+    <wsdl:part element="tns:DeleteCategoryResponse" name="DeleteCategoryResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CategoryPort">
+    <wsdl:operation name="GetAllCategory">
+      <wsdl:input message="tns:GetAllCategoryRequest" name="GetAllCategoryRequest"></wsdl:input>
+      <wsdl:output message="tns:GetAllCategoryResponse" name="GetAllCategoryResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCategoryById">
+      <wsdl:input message="tns:DeleteCategoryByIdRequest" name="DeleteCategoryByIdRequest"></wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="GetCategory">
+      <wsdl:output message="tns:GetCategoryResponse" name="GetCategoryResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCategoryById">
+      <wsdl:input message="tns:GetCategoryByIdRequest" name="GetCategoryByIdRequest"></wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="CreateCategory">
+      <wsdl:input message="tns:CreateCategoryRequest" name="CreateCategoryRequest"></wsdl:input>
+      <wsdl:output message="tns:CreateCategoryResponse" name="CreateCategoryResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCategory">
+      <wsdl:output message="tns:DeleteCategoryResponse" name="DeleteCategoryResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CategoryPortSoap11" type="tns:CategoryPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetAllCategory">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="GetAllCategoryRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetAllCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCategoryById">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="DeleteCategoryByIdRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="GetCategory">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="GetCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCategoryById">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="GetCategoryByIdRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="CreateCategory">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="CreateCategoryRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="CreateCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCategory">
+      <soap:operation soapAction=""/>
+      <wsdl:output name="DeleteCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CategoryPortService">
+    <wsdl:port binding="tns:CategoryPortSoap11" name="CategoryPortSoap11">
+      <soap:address location="http://localhost:8080/service/category"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content>
+                <con:type>http://schemas.xmlsoap.org/wsdl/</con:type>
+            </con:part>
+        </con:definitionCache>
+        <con:endpoints>
+            <con:endpoint>http://localhost:8080/service/category</con:endpoint>
+        </con:endpoints>
+        <con:operation isOneWay="false" action="" name="CreateCategory" bindingOperationName="CreateCategory"
+                       type="Request-Response" outputName="CreateCategoryResponse" inputName="CreateCategoryRequest"
+                       receivesAttachments="false" sendsAttachments="false" anonymous="optional">
+            <con:settings/>
+            <con:call name="Request 1">
+                <con:settings>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                    </con:setting>
+                </con:settings>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8080/service/category</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cat="http://www.project.com/xml/category">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cat:CreateCategoryRequest>
+         <cat:name>kornawirus</cat:name>
+      </cat:CreateCategoryRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:credentials>
+                    <con:authType>Global HTTP Settings</con:authType>
+                </con:credentials>
+                <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                <con:jmsPropertyConfig/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"
+                               action="http://www.project.com/xml/category/CategoryPort/CreateCategoryRequest"/>
+                <con:wsrmConfig version="1.2"/>
+            </con:call>
+        </con:operation>
+        <con:operation isOneWay="false" action="" name="GetAllCategory" bindingOperationName="GetAllCategory"
+                       type="Request-Response" outputName="GetAllCategoryResponse" inputName="GetAllCategoryRequest"
+                       receivesAttachments="false" sendsAttachments="false" anonymous="optional">
+            <con:settings/>
+            <con:call name="Request 1">
+                <con:settings>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                    </con:setting>
+                </con:settings>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8080/service/category</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cat="http://www.project.com/xml/category">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cat:GetAllCategoryRequest/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:credentials>
+                    <con:authType>Global HTTP Settings</con:authType>
+                </con:credentials>
+                <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                <con:jmsPropertyConfig/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"
+                               action="http://www.project.com/xml/category/CategoryPort/GetAllCategoryRequest"/>
+                <con:wsrmConfig version="1.2"/>
+            </con:call>
+        </con:operation>
+        <con:operation isOneWay="false" action="" name="GetCategory" bindingOperationName="GetCategory"
+                       type="Notification" outputName="GetCategoryResponse" inputName="" receivesAttachments="false"
+                       anonymous="optional">
+            <con:settings/>
+            <con:call name="Request 1">
+                <con:settings/>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8080/service/category</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cat="http://www.project.com/xml/category" xmlns:typ="http://www.project.com/xml/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cat:GetCategoryResponse>
+         <cat:News>
+            <typ:id>?</typ:id>
+            <typ:name>?</typ:name>
+            <typ:desc>?</typ:desc>
+            <typ:date>?</typ:date>
+         </cat:News>
+      </cat:GetCategoryResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"/>
+            </con:call>
+        </con:operation>
+        <con:operation isOneWay="false" action="" name="GetCategoryById" bindingOperationName="GetCategoryById"
+                       type="One-Way" inputName="GetCategoryByIdRequest" sendsAttachments="false" anonymous="optional">
+            <con:settings/>
+            <con:call name="Request 1">
+                <con:settings>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                    </con:setting>
+                </con:settings>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8080/service/category</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cat="http://www.project.com/xml/category">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cat:GetCategoryByIdRequest>
+         <cat:id>2</cat:id>
+      </cat:GetCategoryByIdRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:credentials>
+                    <con:authType>Global HTTP Settings</con:authType>
+                </con:credentials>
+                <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                <con:jmsPropertyConfig/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"
+                               action="http://www.project.com/xml/category/CategoryPort/GetCategoryByIdRequest"/>
+                <con:wsrmConfig version="1.2"/>
+            </con:call>
+        </con:operation>
+        <con:operation isOneWay="false" action="" name="DeleteCategoryById" bindingOperationName="DeleteCategoryById"
+                       type="One-Way" inputName="DeleteCategoryByIdRequest" sendsAttachments="false"
+                       anonymous="optional">
+            <con:settings/>
+            <con:call name="Request 1">
+                <con:settings>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                    </con:setting>
+                </con:settings>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8080/service/category</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cat="http://www.project.com/xml/category">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cat:DeleteCategoryByIdRequest>
+         <cat:id>2</cat:id>
+      </cat:DeleteCategoryByIdRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:credentials>
+                    <con:authType>Global HTTP Settings</con:authType>
+                </con:credentials>
+                <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                <con:jmsPropertyConfig/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"
+                               action="http://www.project.com/xml/category/CategoryPort/DeleteCategoryByIdRequest"/>
+                <con:wsrmConfig version="1.2"/>
+            </con:call>
+        </con:operation>
+        <con:operation isOneWay="false" action="" name="DeleteCategory" bindingOperationName="DeleteCategory"
+                       type="Notification" outputName="DeleteCategoryResponse" inputName="" receivesAttachments="false"
+                       anonymous="optional">
+            <con:settings/>
+            <con:call name="Request 1">
+                <con:settings/>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8080/service/category</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cat="http://www.project.com/xml/category">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cat:DeleteCategoryResponse>
+         <cat:result>?</cat:result>
+      </cat:DeleteCategoryResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"/>
+            </con:call>
+        </con:operation>
+    </con:interface>
+    <con:properties/>
+    <con:wssContainer/>
+    <con:sensitiveInformation/>
+</con:soapui-project>

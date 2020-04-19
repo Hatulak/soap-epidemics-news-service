@@ -5,5 +5,5 @@
 // Generated on: 2020.04.19 at 12:41:54 AM CEST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.project.com/xml/news", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package com.project.xml.news;
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.project.com/xml/types", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package com.project.xml.types;

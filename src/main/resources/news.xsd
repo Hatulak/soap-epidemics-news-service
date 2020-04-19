@@ -1,6 +1,7 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.project.com/xml/news"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:sn="http://www.project.com/xml/types"
            targetNamespace="http://www.project.com/xml/news" elementFormDefault="qualified">
-
+    <xs:import schemaLocation="types.xsd" namespace="http://www.project.com/xml/types"/>
     <xs:element name="GetNewsByIdRequest">
         <xs:complexType>
             <xs:sequence>
@@ -9,21 +10,63 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="GetNewsResponse">
+    <xs:element name="DeleteNewsByIdRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="News" type="tns:news"/>
+                <xs:element name="id" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="news">
-        <xs:sequence>
-            <xs:element name="id" type="xs:long"/>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="desc" type="xs:string"/>
-            <xs:element name="date" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
+
+    <xs:element name="GetAllNewsRequest">
+        <xs:complexType>
+            <!-- This one isn't used -->
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CreateNewsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="desc" type="xs:string"/>
+                <xs:element name="date" type="xs:string"/>
+                <xs:element name="categoryId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetAllNewsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="News" type="sn:news" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetNewsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="News" type="sn:news"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="DeleteNewsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CreateNewsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="News" type="sn:news"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
 
 </xs:schema>

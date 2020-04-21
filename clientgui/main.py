@@ -1,6 +1,5 @@
 from kivy.app import App
-from kivy.uix.button import Label
-
+from kivy.uix.label import Label
 
 class KivyTest(App):
     def build(self):
@@ -8,4 +7,6 @@ class KivyTest(App):
 
 
 if __name__ == '__main__':
+    KivyTest().build()
     KivyTest().run()
+

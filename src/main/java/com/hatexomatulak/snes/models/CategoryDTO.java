@@ -20,7 +20,7 @@ public class CategoryDTO {
     @NonNull
     private String name;
     @NonNull
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsDTO> newsList;
 
     public Category castToCategory() {

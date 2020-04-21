@@ -8,62 +8,56 @@
 
 package com.project.xml.news;
 
-import com.project.xml.types.News;
+import com.project.xml.types.File;
 
 import javax.xml.bind.annotation.*;
 
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="News" type="{http://www.project.com/xml/types}news"/>
+ *         &lt;element name="File" type="{http://www.project.com/xml/types}file"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "news"
+        "file"
 })
-@XmlRootElement(name = "CreateNewsResponse")
-public class CreateNewsResponse {
+@XmlRootElement(name = "StoreFileRequest")
+public class StoreFileRequest {
 
-    @XmlElement(name = "News", required = true)
-    protected News news;
+    @XmlElement(name = "File", required = true)
+    protected File file;
 
     /**
-     * Gets the value of the news property.
+     * Gets the value of the file property.
      *
-     * @return
-     *     possible object is
-     *     {@link News }
-     *     
+     * @return possible object is
+     * {@link File }
      */
-    public News getNews() {
-        return news;
+    public File getFile() {
+        return file;
     }
 
     /**
-     * Sets the value of the news property.
+     * Sets the value of the file property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link News }
-     *     
+     * @param value allowed object is
+     *              {@link File }
      */
-    public void setNews(News value) {
-        this.news = value;
+    public void setFile(File value) {
+        this.file = value;
     }
 
 }

@@ -68,5 +68,28 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="StoreFileRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="File" type="sn:file"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="LoadFileRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="path" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="LoadFileResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="file" type="sn:file"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
 </xs:schema>

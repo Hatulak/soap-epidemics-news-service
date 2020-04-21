@@ -43,10 +43,6 @@ public class Config extends WsConfigurerAdapter {
         return wsdl11Definition;
     }
 
-//    @Bean
-//    public XsdSchema newsSchema() {
-//        return new SimpleXsdSchema(new ClassPathResource("news.xsd"));
-//    }
 
     @Bean
     public XsdSchemaCollection newsSchema() {
@@ -66,8 +62,4 @@ public class Config extends WsConfigurerAdapter {
         return commonsXsdSchemaCollection;
     }
 
-//    @Bean
-//    public XsdSchema categorySchema() {
-//        return new SimpleXsdSchema(new ClassPathResource("category.xsd"));
-//    }
 }

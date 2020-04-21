@@ -1,6 +1,8 @@
 package com.hatexomatulak.snes.services;
 
+import com.hatexomatulak.snes.models.CategoryDTO;
 import com.hatexomatulak.snes.models.NewsDTO;
+import com.hatexomatulak.snes.repositories.CategoryRepository;
 import com.hatexomatulak.snes.repositories.NewsRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class NewsService {
     @NonNull
     private NewsRepository newsRepository;
+    @NonNull
+    CategoryRepository categoryRepository;
 
     public List<NewsDTO> findAll() {
         return newsRepository.findAll();
@@ -35,7 +39,11 @@ public class NewsService {
         return newsRepository.save(experiment);
     }
 
+
     public void delete(NewsDTO experiment) {
+        @NonNull CategoryDTO category = experiment.getCategory();
+        category.getNewsList().remove(experiment);
+        categoryRepository.save(category);
         newsRepository.delete(experiment);
     }
 }

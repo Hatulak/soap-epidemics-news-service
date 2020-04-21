@@ -21,7 +21,7 @@ public class NewsDTO {
     private String desc;
     @NonNull
     private Date date;
-    @ManyToOne
+    @ManyToOne()
     @NonNull
     @JoinColumn(name = "categoryId", nullable = false)
     private CategoryDTO category;

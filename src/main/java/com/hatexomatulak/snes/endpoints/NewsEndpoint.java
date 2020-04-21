@@ -3,9 +3,11 @@ package com.hatexomatulak.snes.endpoints;
 import com.hatexomatulak.snes.exception.DBException;
 import com.hatexomatulak.snes.models.CategoryDTO;
 import com.hatexomatulak.snes.models.NewsDTO;
+import com.hatexomatulak.snes.repositories.FileRepository;
 import com.hatexomatulak.snes.services.CategoryService;
 import com.hatexomatulak.snes.services.NewsService;
 import com.project.xml.news.*;
+import com.project.xml.types.File;
 import com.project.xml.types.News;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,8 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import javax.xml.bind.JAXBElement;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +36,9 @@ public class NewsEndpoint {
     private NewsService newsService;
     @NonNull
     private CategoryService categoryService;
+
+    private FileRepository fileRepository = new FileRepository();
+
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetNewsByIdRequest")
     @ResponsePayload
@@ -75,7 +82,7 @@ public class NewsEndpoint {
             response.setNews(saved.castToNews());
             return response;
         } catch (DBException e) {
-            log.error("[getNewsById] Problem with database, cannot find category  by categoryId. Id:  " + request.getCategoryId());
+            log.error("[createNews] Problem with database, cannot find category  by categoryId. Id:  " + request.getCategoryId());
             throw new DBException("Problem with database, cannot find category by categoryId");
         }
 
@@ -94,8 +101,37 @@ public class NewsEndpoint {
             response.setResult("Success");
             return response;
         } catch (DBException e) {
-            log.error("[getNewsById] Problem with database, cannot find news by news. Id:  " + request.getId());
+            log.error("[deleteNews] Problem with database, cannot find news by news. Id:  " + request.getId());
             throw new DBException("Problem with database, cannot find news by news");
+        }
+    }
+
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "StoreFileRequest")
+    @ResponsePayload
+    public void store(@RequestPayload JAXBElement<File> requestElement) throws IOException {
+        File request = requestElement.getValue();
+        try {
+            fileRepository.storeFile(request.getName(), request);
+        } catch (IOException e) {
+            log.error("[store] Problem with saving file ");
+            throw e;
+        }
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "LoadFileRequest")
+    @ResponsePayload
+    public LoadFileResponse load(@RequestPayload LoadFileRequest request) throws IOException {
+        String path = request.getPath();
+        File file = null;
+        try {
+            file = fileRepository.readFile(path);
+            LoadFileResponse response = new LoadFileResponse();
+            response.setFile(file);
+            return response;
+        } catch (IOException e) {
+            log.error("[load] Problem with loading file " + path);
+            throw e;
         }
     }
 

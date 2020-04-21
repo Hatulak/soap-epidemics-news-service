@@ -1,0 +1,2 @@
+Komenda do konwersji z pliku .ui na .py
+pyuic5 -x client_main_window.ui -o client_main_window.py

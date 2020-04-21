@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project activeEnvironment="Default" name="category" resourceRoot="" soapui-version="4.6.4"
-                    xmlns:con="http://eviware.com/soapui/config">
+<con:soapui-project activeEnvironment="Default" name="category" resourceRoot="" soapui-version="4.6.4" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config">
     <con:settings/>
-    <con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="CategoryPortSoap11" type="wsdl"
-                   bindingName="{http://www.project.com/xml/category}CategoryPortSoap11" soapVersion="1_1"
-                   anonymous="optional" definition="http://localhost:8080/service/category.wsdl"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="CategoryPortSoap11" type="wsdl" bindingName="{http://www.project.com/xml/category}CategoryPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/service/category.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <con:settings/>
         <con:definitionCache type="TEXT" rootPart="http://localhost:8080/service/category.wsdl">
             <con:part>
@@ -190,14 +186,11 @@
         <con:endpoints>
             <con:endpoint>http://localhost:8080/service/category</con:endpoint>
         </con:endpoints>
-        <con:operation isOneWay="false" action="" name="CreateCategory" bindingOperationName="CreateCategory"
-                       type="Request-Response" outputName="CreateCategoryResponse" inputName="CreateCategoryRequest"
-                       receivesAttachments="false" sendsAttachments="false" anonymous="optional">
+        <con:operation isOneWay="false" action="" name="CreateCategory" bindingOperationName="CreateCategory" type="Request-Response" outputName="CreateCategoryResponse" inputName="CreateCategoryRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional">
             <con:settings/>
             <con:call name="Request 1">
                 <con:settings>
-                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
-                    </con:setting>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
                 </con:settings>
                 <con:encoding>UTF-8</con:encoding>
                 <con:endpoint>http://localhost:8080/service/category</con:endpoint>
@@ -205,7 +198,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <cat:CreateCategoryRequest>
-         <cat:name>kornawirus</cat:name>
+         <cat:name>ebola</cat:name>
       </cat:CreateCategoryRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request>
@@ -214,19 +207,15 @@
                 </con:credentials>
                 <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
                 <con:jmsPropertyConfig/>
-                <con:wsaConfig mustUnderstand="NONE" version="200508"
-                               action="http://www.project.com/xml/category/CategoryPort/CreateCategoryRequest"/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.project.com/xml/category/CategoryPort/CreateCategoryRequest"/>
                 <con:wsrmConfig version="1.2"/>
             </con:call>
         </con:operation>
-        <con:operation isOneWay="false" action="" name="GetAllCategory" bindingOperationName="GetAllCategory"
-                       type="Request-Response" outputName="GetAllCategoryResponse" inputName="GetAllCategoryRequest"
-                       receivesAttachments="false" sendsAttachments="false" anonymous="optional">
+        <con:operation isOneWay="false" action="" name="GetAllCategory" bindingOperationName="GetAllCategory" type="Request-Response" outputName="GetAllCategoryResponse" inputName="GetAllCategoryRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional">
             <con:settings/>
             <con:call name="Request 1">
                 <con:settings>
-                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
-                    </con:setting>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
                 </con:settings>
                 <con:encoding>UTF-8</con:encoding>
                 <con:endpoint>http://localhost:8080/service/category</con:endpoint>
@@ -241,14 +230,11 @@
                 </con:credentials>
                 <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
                 <con:jmsPropertyConfig/>
-                <con:wsaConfig mustUnderstand="NONE" version="200508"
-                               action="http://www.project.com/xml/category/CategoryPort/GetAllCategoryRequest"/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.project.com/xml/category/CategoryPort/GetAllCategoryRequest"/>
                 <con:wsrmConfig version="1.2"/>
             </con:call>
         </con:operation>
-        <con:operation isOneWay="false" action="" name="GetCategory" bindingOperationName="GetCategory"
-                       type="Notification" outputName="GetCategoryResponse" inputName="" receivesAttachments="false"
-                       anonymous="optional">
+        <con:operation isOneWay="false" action="" name="GetCategory" bindingOperationName="GetCategory" type="Notification" outputName="GetCategoryResponse" inputName="" receivesAttachments="false" anonymous="optional">
             <con:settings/>
             <con:call name="Request 1">
                 <con:settings/>
@@ -270,13 +256,11 @@
                 <con:wsaConfig mustUnderstand="NONE" version="200508"/>
             </con:call>
         </con:operation>
-        <con:operation isOneWay="false" action="" name="GetCategoryById" bindingOperationName="GetCategoryById"
-                       type="One-Way" inputName="GetCategoryByIdRequest" sendsAttachments="false" anonymous="optional">
+        <con:operation isOneWay="false" action="" name="GetCategoryById" bindingOperationName="GetCategoryById" type="One-Way" inputName="GetCategoryByIdRequest" sendsAttachments="false" anonymous="optional">
             <con:settings/>
             <con:call name="Request 1">
                 <con:settings>
-                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
-                    </con:setting>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
                 </con:settings>
                 <con:encoding>UTF-8</con:encoding>
                 <con:endpoint>http://localhost:8080/service/category</con:endpoint>
@@ -293,19 +277,15 @@
                 </con:credentials>
                 <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
                 <con:jmsPropertyConfig/>
-                <con:wsaConfig mustUnderstand="NONE" version="200508"
-                               action="http://www.project.com/xml/category/CategoryPort/GetCategoryByIdRequest"/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.project.com/xml/category/CategoryPort/GetCategoryByIdRequest"/>
                 <con:wsrmConfig version="1.2"/>
             </con:call>
         </con:operation>
-        <con:operation isOneWay="false" action="" name="DeleteCategoryById" bindingOperationName="DeleteCategoryById"
-                       type="One-Way" inputName="DeleteCategoryByIdRequest" sendsAttachments="false"
-                       anonymous="optional">
+        <con:operation isOneWay="false" action="" name="DeleteCategoryById" bindingOperationName="DeleteCategoryById" type="One-Way" inputName="DeleteCategoryByIdRequest" sendsAttachments="false" anonymous="optional">
             <con:settings/>
             <con:call name="Request 1">
                 <con:settings>
-                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
-                    </con:setting>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
                 </con:settings>
                 <con:encoding>UTF-8</con:encoding>
                 <con:endpoint>http://localhost:8080/service/category</con:endpoint>
@@ -322,14 +302,11 @@
                 </con:credentials>
                 <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
                 <con:jmsPropertyConfig/>
-                <con:wsaConfig mustUnderstand="NONE" version="200508"
-                               action="http://www.project.com/xml/category/CategoryPort/DeleteCategoryByIdRequest"/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.project.com/xml/category/CategoryPort/DeleteCategoryByIdRequest"/>
                 <con:wsrmConfig version="1.2"/>
             </con:call>
         </con:operation>
-        <con:operation isOneWay="false" action="" name="DeleteCategory" bindingOperationName="DeleteCategory"
-                       type="Notification" outputName="DeleteCategoryResponse" inputName="" receivesAttachments="false"
-                       anonymous="optional">
+        <con:operation isOneWay="false" action="" name="DeleteCategory" bindingOperationName="DeleteCategory" type="Notification" outputName="DeleteCategoryResponse" inputName="" receivesAttachments="false" anonymous="optional">
             <con:settings/>
             <con:call name="Request 1">
                 <con:settings/>

@@ -7,7 +7,7 @@
     <xs:element name="GetCategoryByIdRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:long"/>
+                <xs:element name="id" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -53,7 +53,7 @@
     <xs:element name="DeleteCategoryByIdRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:long"/>
+                <xs:element name="id" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -68,7 +68,7 @@
 
     <xs:complexType name="category">
         <xs:sequence>
-            <xs:element name="id" type="xs:long"/>
+            <xs:element name="id" type="xs:int"/>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="news" type="sn:news" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>

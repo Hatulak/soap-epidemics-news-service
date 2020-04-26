@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface NewsRepository extends CrudRepository<NewsDTO, Long> {
+public interface NewsRepository extends CrudRepository<NewsDTO, Integer> {
     List<NewsDTO> findAll();
 }

@@ -19,7 +19,6 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import javax.xml.bind.JAXBElement;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -76,7 +75,7 @@ public class NewsEndpoint {
         try {
             CategoryDTO categoryDTO = categoryService.findById(request.getCategoryId()).orElseThrow(DBException::new);
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            NewsDTO newsDTO = new NewsDTO(request.getName(), request.getDesc(), formatter.parse(request.getDate()), categoryDTO);
+            NewsDTO newsDTO = new NewsDTO(request.getName(), request.getDesc(), formatter.parse(request.getDate()), "", categoryDTO);
             NewsDTO saved = newsService.save(newsDTO);
             CreateNewsResponse response = new CreateNewsResponse();
             response.setNews(saved.castToNews());
@@ -109,13 +108,19 @@ public class NewsEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "StoreFileRequest")
     @ResponsePayload
-    public void store(@RequestPayload JAXBElement<File> requestElement) throws IOException {
-        File request = requestElement.getValue();
+    public void store(@RequestPayload StoreFileRequest requestElement) throws IOException, DBException {
         try {
-            fileRepository.storeFile(request.getName(), request);
+            NewsDTO newsDTO = newsService.findById(requestElement.getNewsid()).orElseThrow(DBException::new);
+            String folderName = newsDTO.getNewsId() + "_" + newsDTO.getName();
+            String filePath = fileRepository.storeFile(requestElement.getName(), requestElement.getFileData(), folderName);
+            newsDTO.setImagePath(filePath);
+            newsService.save(newsDTO);
         } catch (IOException e) {
-            log.error("[store] Problem with saving file ");
+            log.error("[store] Problem with saving file ", e);
             throw e;
+        } catch (DBException e) {
+            log.error("[deleteNews] Problem with database, cannot find news by news. Id:  " + requestElement.getNewsid());
+            throw new DBException("Problem with database, cannot find news by news");
         }
     }
 

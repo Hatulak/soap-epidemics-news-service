@@ -22,7 +22,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Optional<CategoryDTO> findById(Long id) {
+    public Optional<CategoryDTO> findById(Integer id) {
         return categoryRepository.findById(id);
     }
 

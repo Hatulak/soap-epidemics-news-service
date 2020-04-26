@@ -26,7 +26,7 @@ public class NewsService {
         return newsRepository.findAll();
     }
 
-    public Optional<NewsDTO> findById(Long id) {
+    public Optional<NewsDTO> findById(Integer id) {
         return newsRepository.findById(id);
     }
 

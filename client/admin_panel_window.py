@@ -17,6 +17,7 @@ from NewsRequester import NewsRequester
 class Ui_AdminPanelWindow(object):
     def setupUi(self, AdminPanelWindow):
         self.choosen_file_name_to_new_news = ""
+        self.choosen_file_name_to_edit_news = ""
         self.category_requester = CategoryRequester()
         self.news_requester = NewsRequester()
         AdminPanelWindow.setObjectName("AdminPanelWindow")
@@ -159,11 +160,26 @@ class Ui_AdminPanelWindow(object):
         self.addCategoryButton.clicked.connect(self.add_category)
         self.addAddonButton.clicked.connect(self.choose_file_to_new_news)
         self.addNewsButton.clicked.connect(self.add_news)
+        self.editCategoryButton.clicked.connect(self.edit_category)
+        self.editNewsButton.clicked.connect(self.edit_news)
         self._refresh_combo_boxes()
+        self.chooseCategoryComboBox.currentTextChanged.connect(self.load_category)
+        self.chooseNewsComboBox.currentTextChanged.connect(self.load_news)
         AdminPanelWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(AdminPanelWindow)
         QtCore.QMetaObject.connectSlotsByName(AdminPanelWindow)
+
+    def load_category(self):
+        pass  # todo - jak bedzie mozliwosc to zmienic
+        # category = self.category_requester.get_category_by_id(self.chooseCategoryComboBox.currentData())
+        # self.editCategoryLineEdit.setText(category.name)
+
+    def load_news(self):
+        news = self.news_requester.get_news_by_id(int(self.chooseNewsComboBox.currentData()))
+        self.editTitleLineEdit.setText(news.name)
+        self.editDescriptionTextEdit.setText(news.desc)
+        self.editCategoryComboBox.setCurrentText(news.categoryName)
 
     def add_category(self):
         if self.addCategoryLineEdit.text():
@@ -173,6 +189,17 @@ class Ui_AdminPanelWindow(object):
             self._refresh_combo_boxes()
         else:
             self._show_messge_dialog("Błąd", "Nazwa nie może być pusta", QMessageBox.Warning)
+
+    def edit_category(self):
+        pass  # todo - jak bedzie mozliwosc edycji to zmienic
+
+    # if self.editCategoryLineEdit.text():
+    #     self.category_requester.(self.addCategoryLineEdit.text())
+    #     self.addCategoryLineEdit.setText("")
+    #     self._show_messge_dialog("Sukces", "Dodano kategorię", QMessageBox.Information)
+    #     self._refresh_combo_boxes()
+    # else:
+    #     self._show_messge_dialog("Błąd", "Nazwa nie może być pusta", QMessageBox.Warning)
 
     def choose_file_to_new_news(self):
         dlg = QFileDialog()
@@ -188,15 +215,33 @@ class Ui_AdminPanelWindow(object):
             self.choosen_file_name_to_new_news = ""
             self.addAddonLabel.setText("Plik niewybrany")
 
+    def choose_file_to_edit_news(self):
+        dlg = QFileDialog()
+        dlg.setFileMode(QFileDialog.AnyFile)
+        dlg.setNameFilters(["Images (*.png *.jpg *.bmp *.jpeg)"])
+        dlg.selectNameFilter("Images (*.png *.jpg *.bmp *.jpeg)")
+        if dlg.exec_():
+            filenames = dlg.selectedFiles()
+
+            self.choosen_file_name_to_edit_news = filenames[0]
+            self.addAddonLabel.setText("Plik wybrany")
+        else:
+            self.choosen_file_name_to_edit_news = ""
+            self.addAddonLabel.setText("Plik niewybrany")
+
     def add_news(self):
-        print(str(datetime.now().strftime('%d/%m/%Y')))
         if self.addTitleLineEdit.text():
             if self.addDescriptionTextEdit.toPlainText():
                 if self.choosen_file_name_to_new_news:
-                    self.news_requester.create_news(self.addTitleLineEdit.text(),
-                                                    self.addDescriptionTextEdit.toPlainText(),
-                                                    str(datetime.now().strftime('%d/%m/%Y')),
-                                                    int(self.addCategoryComboBox.currentData()))
+                    news = self.news_requester.create_news(self.addTitleLineEdit.text(),
+                                                           self.addDescriptionTextEdit.toPlainText(),
+                                                           str(datetime.now().strftime('%d/%m/%Y')),
+                                                           int(self.addCategoryComboBox.currentData()))
+                    self.news_requester.store_file(self.choosen_file_name_to_new_news, news.id)
+                    self._refresh_combo_boxes()
+                    self.addTitleLineEdit.setText("")
+                    self.addDescriptionTextEdit.setText("")
+                    self.addAddonLabel.setText("")
                     self._show_messge_dialog("Sukces", "Dodano newsa", QMessageBox.Information)
                 else:
                     self._show_messge_dialog("Błąd", "Należy wybrać załącznik", QMessageBox.Warning)
@@ -204,6 +249,23 @@ class Ui_AdminPanelWindow(object):
                 self._show_messge_dialog("Błąd", "Opis nie może być pusty", QMessageBox.Warning)
         else:
             self._show_messge_dialog("Błąd", "Tytuł nie może być pusty", QMessageBox.Warning)
+
+    def edit_news(self):
+        pass  # todo - jak bedzie mozliwosc edycji to zmienic
+        # if self.editTitleLineEdit.text():
+        #     if self.editDescriptionTextEdit.toPlainText():
+        #         if self.choosen_file_name_to_new_news:
+        #             self.news_requester.edit_news(self.editTitleLineEdit.text(),
+        #                                             self.editDescriptionTextEdit.toPlainText(),
+        #                                             str(datetime.now().strftime('%d/%m/%Y')),
+        #                                             int(self.editCategoryComboBox.currentData()))
+        #             self._show_messge_dialog("Sukces", "Dodano newsa", QMessageBox.Information)
+        #         else:
+        #             self._show_messge_dialog("Błąd", "Należy wybrać załącznik", QMessageBox.Warning)
+        #     else:
+        #         self._show_messge_dialog("Błąd", "Opis nie może być pusty", QMessageBox.Warning)
+        # else:
+        #     self._show_messge_dialog("Błąd", "Tytuł nie może być pusty", QMessageBox.Warning)
 
     # type - QMessageBox.Warning, QMessageBox.Information ...
     def _show_messge_dialog(self, header, message, message_type):
@@ -234,7 +296,7 @@ class Ui_AdminPanelWindow(object):
         newses = self.news_requester.get_all_news()
         print(newses)
         for n in newses:
-            self.chooseNewsComboBox.addItems(n.title, str(n.id))
+            self.chooseNewsComboBox.addItem(n.name, str(n.id))
 
     def retranslateUi(self, AdminPanelWindow):
         _translate = QtCore.QCoreApplication.translate

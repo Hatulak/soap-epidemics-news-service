@@ -38,7 +38,7 @@ class Ui_MainWindow(object):
         self.epidemyComboBox.setGeometry(QtCore.QRect(10, 130, 321, 22))
         self.epidemyComboBox.setObjectName("epidemyComboBox")
         categories_list = requester_cat.get_all_category()
-        print(categories_list)
+        # print(categories_list)
 
         self.searchByEpidemyLabel = QtWidgets.QLabel(self.centralwidget)
         self.searchByEpidemyLabel.setGeometry(QtCore.QRect(10, 100, 321, 21))

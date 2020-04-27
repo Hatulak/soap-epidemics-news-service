@@ -33,7 +33,10 @@ class NewsRequester:
     def get_news_by_date(self, date: str) -> List:
         try:
             all_news = self.client.service.GetAllNews()
-            news_by_date = [x for x in all_news if x.date == date]
+            news_by_date = []
+            for news in all_news:
+                if news.date == date:
+                    news_by_date.append(news)
         except Exception:
             log.exception(f"[get_news_by_id] Problem with request.")
             return []
@@ -41,11 +44,15 @@ class NewsRequester:
 
     def get_news_by_date_and_category(self, date: str, category_id: int) -> List:
         try:
-            all_news = self.client.service.GetNewsByDateAndCategory(date, category_id)
+            all_news = self.client.service.GetAllNews()
+            news_by_date_and_category = []
+            for news in all_news:
+                if news.date == date and news.categoryId == category_id:
+                    news_by_date_and_category.append(news)
         except Exception:
             log.exception(f"[get_news_by_id] Problem with request.")
-            return {}
-        return all_news
+            return []
+        return news_by_date_and_category
 
     def create_news(self, name: str, desc: str, date: str, category_id: int) -> dict:
         try:

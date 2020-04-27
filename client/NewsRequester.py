@@ -62,6 +62,15 @@ class NewsRequester:
             return {}
         return create_news
 
+    def update_news(self, id: int, name: str, desc: str, date: str, category_id: int, image_path: str) -> dict:
+        try:
+            self.client.service.UpdateNews(id, name, desc, date, category_id, image_path)
+            news_by_id = self.get_news_by_id(id)
+        except Exception:
+            log.exception(f"[update_news] Problem with request.")
+            return {}
+        return news_by_id
+
     def delete_news(self, id: int) -> str:
         try:
             result = self.client.service.DeleteNewsById(id)

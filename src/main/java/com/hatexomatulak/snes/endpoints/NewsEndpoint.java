@@ -71,6 +71,27 @@ public class NewsEndpoint {
         return response;
     }
 
+    @SneakyThrows(ParseException.class)
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetNewsByDateAndCategoryRequest")
+    @ResponsePayload
+    public GetAllNewsResponse getNewsByDateAndCategory(@RequestPayload GetNewsByDateAndCategoryRequest request) throws DBException {
+        try {
+            NewsDTO newsDTO = null;
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date parse = formatter.parse(request.getDate());
+            CategoryDTO categoryDTO = categoryService.findById(request.getCategoryId()).orElseThrow(DBException::new);
+            List<NewsDTO> newsByDate = newsService.findByDateAndCategory(parse, categoryDTO);
+            GetAllNewsResponse response = new GetAllNewsResponse();
+            List<News> result = new ArrayList<>();
+            newsByDate.forEach(p -> result.add(p.castToNews()));
+            response.getNews().addAll(result);
+            return response;
+        } catch (DBException e) {
+            log.error("[getNewsByDateAndCategory] Problem with database, cannot find categroy by category id :" + request.getCategoryId());
+            throw new DBException("Problem with database, cannot find news by news");
+        }
+    }
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetAllNewsRequest")
     @ResponsePayload
     public GetAllNewsResponse getAllNews() {

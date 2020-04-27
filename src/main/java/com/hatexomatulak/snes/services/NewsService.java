@@ -35,6 +35,10 @@ public class NewsService {
         return newsRepository.findNewsDTOByDate(date);
     }
 
+    public List<NewsDTO> findByDateAndCategory(Date date, CategoryDTO categoryDTO) {
+        return newsRepository.findNewsDTOByDateAndCategory(date, categoryDTO);
+    }
+
     public NewsDTO save(NewsDTO experiment) {
         return newsRepository.save(experiment);
     }

@@ -13,40 +13,39 @@ import javax.xml.bind.annotation.*;
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="categoryId" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "date"
+        "date",
+        "categoryId"
 })
-@XmlRootElement(name = "GetNewsByDateRequest")
-public class GetNewsByDateRequest {
+@XmlRootElement(name = "GetNewsByDateAndCategoryRequest")
+public class GetNewsByDateAndCategoryRequest {
 
     @XmlElement(required = true)
     protected String date;
+    protected int categoryId;
 
     /**
      * Gets the value of the date property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getDate() {
         return date;
@@ -54,14 +53,26 @@ public class GetNewsByDateRequest {
 
     /**
      * Sets the value of the date property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setDate(String value) {
         this.date = value;
+    }
+
+    /**
+     * Gets the value of the categoryId property.
+     */
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    /**
+     * Sets the value of the categoryId property.
+     */
+    public void setCategoryId(int value) {
+        this.categoryId = value;
     }
 
 }

@@ -162,6 +162,8 @@ class Ui_AdminPanelWindow(object):
         self.addNewsButton.clicked.connect(self.add_news)
         self.editCategoryButton.clicked.connect(self.edit_category)
         self.editNewsButton.clicked.connect(self.edit_news)
+        self.deleteCategoryButton.clicked.connect(self.delete_category)
+        self.deleteNewsButton.clicked.connect(self.delete_news)
         self._refresh_combo_boxes()
         self.chooseCategoryComboBox.currentTextChanged.connect(self.load_category)
         self.chooseNewsComboBox.currentTextChanged.connect(self.load_news)
@@ -176,10 +178,12 @@ class Ui_AdminPanelWindow(object):
         # self.editCategoryLineEdit.setText(category.name)
 
     def load_news(self):
-        news = self.news_requester.get_news_by_id(int(self.chooseNewsComboBox.currentData()))
-        self.editTitleLineEdit.setText(news.name)
-        self.editDescriptionTextEdit.setText(news.desc)
-        self.editCategoryComboBox.setCurrentText(news.categoryName)
+        if self.chooseNewsComboBox.currentData():
+            news = self.news_requester.get_news_by_id(int(self.chooseNewsComboBox.currentData()))
+            print(news)
+            self.editTitleLineEdit.setText(news.name)
+            self.editDescriptionTextEdit.setText(news.desc)
+            self.editCategoryComboBox.setCurrentText(news.categoryName)
 
     def add_category(self):
         if self.addCategoryLineEdit.text():
@@ -266,6 +270,16 @@ class Ui_AdminPanelWindow(object):
         #         self._show_messge_dialog("Błąd", "Opis nie może być pusty", QMessageBox.Warning)
         # else:
         #     self._show_messge_dialog("Błąd", "Tytuł nie może być pusty", QMessageBox.Warning)
+
+    def delete_category(self):
+        self.category_requester.delete_category(int(self.chooseCategoryComboBox.currentData()))
+        self._refresh_combo_boxes()
+        self._show_messge_dialog("Sukces", "Usunięto", QMessageBox.Information)
+
+    def delete_news(self):
+        self.news_requester.delete_news(int(self.chooseNewsComboBox.currentData()))
+        self._refresh_combo_boxes()
+        self._show_messge_dialog("Sukces", "Usunięto", QMessageBox.Information)
 
     # type - QMessageBox.Warning, QMessageBox.Information ...
     def _show_messge_dialog(self, header, message, message_type):

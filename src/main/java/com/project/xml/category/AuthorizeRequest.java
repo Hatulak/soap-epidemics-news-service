@@ -6,90 +6,90 @@
 //
 
 
-package com.project.xml.types;
+package com.project.xml.category;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 
 /**
- * <p>Java class for file complex type.
+ * <p>Java class for anonymous complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="file">
+ * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="fileData" type="{http://www.w3.org/2001/XMLSchema}base64Binary"/>
+ *         &lt;element name="login" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="password" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
+ *
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "file", propOrder = {
-        "name",
-        "fileData"
+@XmlType(name = "", propOrder = {
+        "login",
+        "password"
 })
-public class File {
+@XmlRootElement(name = "AuthorizeRequest")
+public class AuthorizeRequest {
 
     @XmlElement(required = true)
-    protected String name;
+    protected String login;
     @XmlElement(required = true)
-    protected byte[] fileData;
+    protected String password;
 
     /**
-     * Gets the value of the name property.
-     * 
+     * Gets the value of the login property.
+     *
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getName() {
-        return name;
+    public String getLogin() {
+        return login;
     }
 
     /**
-     * Sets the value of the name property.
-     * 
+     * Sets the value of the login property.
+     *
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setName(String value) {
-        this.name = value;
+    public void setLogin(String value) {
+        this.login = value;
     }
 
     /**
-     * Gets the value of the fileData property.
-     * 
+     * Gets the value of the password property.
+     *
      * @return
      *     possible object is
-     *     byte[]
+     *     {@link String }
+     *     
      */
-    public byte[] getFileData() {
-        return fileData;
+    public String getPassword() {
+        return password;
     }
 
     /**
-     * Sets the value of the fileData property.
-     * 
+     * Sets the value of the password property.
+     *
      * @param value
      *     allowed object is
-     *     byte[]
+     *     {@link String }
+     *     
      */
-    public void setFileData(byte[] value) {
-        this.fileData = value;
+    public void setPassword(String value) {
+        this.password = value;
     }
 
 }

@@ -198,7 +198,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <cat:CreateCategoryRequest>
-         <cat:name>ebola</cat:name>
+         <cat:name>cos </cat:name>
       </cat:CreateCategoryRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request>
@@ -268,7 +268,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <cat:GetCategoryByIdRequest>
-         <cat:id>2</cat:id>
+         <cat:id>1</cat:id>
       </cat:GetCategoryByIdRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request>
@@ -293,7 +293,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <cat:DeleteCategoryByIdRequest>
-         <cat:id>2</cat:id>
+         <cat:id>4</cat:id>
       </cat:DeleteCategoryByIdRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request>

@@ -6,11 +6,12 @@
 //
 
 
-package com.project.xml.news;
+package com.project.xml.category;
 
-import com.project.xml.types.News;
-
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -23,47 +24,38 @@ import javax.xml.bind.annotation.*;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="News" type="{http://www.project.com/xml/types}news"/>
+ *         &lt;element name="isAuthorize" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
+ *
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "news"
+        "isAuthorize"
 })
-@XmlRootElement(name = "GetNewsResponse")
-public class GetNewsResponse {
+@XmlRootElement(name = "AuthorizeResponse")
+public class AuthorizeResponse {
 
-    @XmlElement(name = "News", required = true)
-    protected News news;
+    protected boolean isAuthorize;
 
     /**
-     * Gets the value of the news property.
+     * Gets the value of the isAuthorize property.
      * 
-     * @return
-     *     possible object is
-     *     {@link News }
-     *     
      */
-    public News getNews() {
-        return news;
+    public boolean isIsAuthorize() {
+        return isAuthorize;
     }
 
     /**
-     * Sets the value of the news property.
+     * Sets the value of the isAuthorize property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link News }
-     *     
      */
-    public void setNews(News value) {
-        this.news = value;
+    public void setIsAuthorize(boolean value) {
+        this.isAuthorize = value;
     }
 
 }

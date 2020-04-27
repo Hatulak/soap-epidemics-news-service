@@ -6,9 +6,7 @@
 //
 
 
-package com.project.xml.news;
-
-import com.project.xml.types.News;
+package com.project.xml.category;
 
 import javax.xml.bind.annotation.*;
 
@@ -23,7 +21,8 @@ import javax.xml.bind.annotation.*;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="News" type="{http://www.project.com/xml/types}news"/>
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -34,36 +33,54 @@ import javax.xml.bind.annotation.*;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "news"
+        "id",
+        "name"
 })
-@XmlRootElement(name = "GetNewsResponse")
-public class GetNewsResponse {
+@XmlRootElement(name = "UpdateCategoryRequest")
+public class UpdateCategoryRequest {
 
-    @XmlElement(name = "News", required = true)
-    protected News news;
+    protected int id;
+    @XmlElement(required = true)
+    protected String name;
 
     /**
-     * Gets the value of the news property.
+     * Gets the value of the id property.
      * 
-     * @return
-     *     possible object is
-     *     {@link News }
-     *     
      */
-    public News getNews() {
-        return news;
+    public int getId() {
+        return id;
     }
 
     /**
-     * Sets the value of the news property.
+     * Sets the value of the id property.
+     * 
+     */
+    public void setId(int value) {
+        this.id = value;
+    }
+
+    /**
+     * Gets the value of the name property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
-     *     {@link News }
+     *     {@link String }
      *     
      */
-    public void setNews(News value) {
-        this.news = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
 }

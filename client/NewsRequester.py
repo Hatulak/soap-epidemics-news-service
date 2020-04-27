@@ -1,9 +1,8 @@
 import base64
-import ntpath
-from typing import List
-
-from zeep import Client, Settings
 import logging
+import ntpath
+from typing import List, Union
+from zeep import Client, Settings
 
 log = logging.getLogger(__name__)
 
@@ -23,13 +22,30 @@ class NewsRequester:
         return all_news
 
     def get_news_by_id(self, news_id: int) -> dict:
-        # fixme i dont know why but it dont work :c
         try:
-            news_by_id = self.client.service.GetNewsById(news_id)
+            all_news = self.client.service.GetAllNews()
+            news_by_id: Union[dict, None] = next((x for x in all_news if x.id == news_id), {})
         except Exception:
             log.exception(f"[get_news_by_id] Problem with request.")
             return {}
         return news_by_id
+
+    def get_news_by_date(self, date: str) -> List:
+        try:
+            all_news = self.client.service.GetAllNews()
+            news_by_date = [x for x in all_news if x.date == date]
+        except Exception:
+            log.exception(f"[get_news_by_id] Problem with request.")
+            return []
+        return news_by_date
+
+    def get_news_by_date_and_category(self, date: str, category_id: int) -> List:
+        try:
+            all_news = self.client.service.GetNewsByDateAndCategory(date, category_id)
+        except Exception:
+            log.exception(f"[get_news_by_id] Problem with request.")
+            return {}
+        return all_news
 
     def create_news(self, name: str, desc: str, date: str, category_id: int) -> dict:
         try:

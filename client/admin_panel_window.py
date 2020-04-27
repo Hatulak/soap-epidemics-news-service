@@ -5,10 +5,10 @@
 # Created by: PyQt5 UI code generator 5.14.2
 #
 # WARNING! All changes made in this file will be lost!
-
+from datetime import datetime
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QFileDialog
 
 from CategoryRequester import CategoryRequester
 from NewsRequester import NewsRequester
@@ -16,6 +16,7 @@ from NewsRequester import NewsRequester
 
 class Ui_AdminPanelWindow(object):
     def setupUi(self, AdminPanelWindow):
+        self.choosen_file_name_to_new_news = ""
         self.category_requester = CategoryRequester()
         self.news_requester = NewsRequester()
         AdminPanelWindow.setObjectName("AdminPanelWindow")
@@ -156,7 +157,9 @@ class Ui_AdminPanelWindow(object):
         self.deleteNewsButton.setObjectName("deleteNewsButton")
 
         self.addCategoryButton.clicked.connect(self.add_category)
-
+        self.addAddonButton.clicked.connect(self.choose_file_to_new_news)
+        self.addNewsButton.clicked.connect(self.add_news)
+        self._refresh_combo_boxes()
         AdminPanelWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(AdminPanelWindow)
@@ -167,8 +170,40 @@ class Ui_AdminPanelWindow(object):
             self.category_requester.create_category(self.addCategoryLineEdit.text())
             self.addCategoryLineEdit.setText("")
             self._show_messge_dialog("Sukces", "Dodano kategorię", QMessageBox.Information)
+            self._refresh_combo_boxes()
         else:
             self._show_messge_dialog("Błąd", "Nazwa nie może być pusta", QMessageBox.Warning)
+
+    def choose_file_to_new_news(self):
+        dlg = QFileDialog()
+        dlg.setFileMode(QFileDialog.AnyFile)
+        dlg.setNameFilters(["Images (*.png *.jpg *.bmp *.jpeg)"])
+        dlg.selectNameFilter("Images (*.png *.jpg *.bmp *.jpeg)")
+        if dlg.exec_():
+            filenames = dlg.selectedFiles()
+
+            self.choosen_file_name_to_new_news = filenames[0]
+            self.addAddonLabel.setText("Plik wybrany")
+        else:
+            self.choosen_file_name_to_new_news = ""
+            self.addAddonLabel.setText("Plik niewybrany")
+
+    def add_news(self):
+        print(str(datetime.now().strftime('%d/%m/%Y')))
+        if self.addTitleLineEdit.text():
+            if self.addDescriptionTextEdit.toPlainText():
+                if self.choosen_file_name_to_new_news:
+                    self.news_requester.create_news(self.addTitleLineEdit.text(),
+                                                    self.addDescriptionTextEdit.toPlainText(),
+                                                    str(datetime.now().strftime('%d/%m/%Y')),
+                                                    int(self.addCategoryComboBox.currentData()))
+                    self._show_messge_dialog("Sukces", "Dodano newsa", QMessageBox.Information)
+                else:
+                    self._show_messge_dialog("Błąd", "Należy wybrać załącznik", QMessageBox.Warning)
+            else:
+                self._show_messge_dialog("Błąd", "Opis nie może być pusty", QMessageBox.Warning)
+        else:
+            self._show_messge_dialog("Błąd", "Tytuł nie może być pusty", QMessageBox.Warning)
 
     # type - QMessageBox.Warning, QMessageBox.Information ...
     def _show_messge_dialog(self, header, message, message_type):
@@ -178,6 +213,28 @@ class Ui_AdminPanelWindow(object):
         msg.setInformativeText(message)
         msg.setWindowTitle(header)
         msg.exec_()
+
+    def _refresh_combo_boxes(self):
+        self.addCategoryComboBox.clear()
+        categories = self.category_requester.get_all_category()
+        for c in categories:
+            self.addCategoryComboBox.addItem(c.name, str(c.id))
+
+        self.editCategoryComboBox.clear()
+        categories = self.category_requester.get_all_category()
+        for c in categories:
+            self.editCategoryComboBox.addItem(c.name, str(c.id))
+
+        self.chooseCategoryComboBox.clear()
+        categories = self.category_requester.get_all_category()
+        for c in categories:
+            self.chooseCategoryComboBox.addItem(c.name, str(c.id))
+
+        self.chooseNewsComboBox.clear()
+        newses = self.news_requester.get_all_news()
+        print(newses)
+        for n in newses:
+            self.chooseNewsComboBox.addItems(n.title, str(n.id))
 
     def retranslateUi(self, AdminPanelWindow):
         _translate = QtCore.QCoreApplication.translate

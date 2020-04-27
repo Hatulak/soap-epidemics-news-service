@@ -16,7 +16,7 @@ import java.util.List;
 public class CategoryDTO {
     @Id
     @GeneratedValue
-    private Long categoryId;
+    private Integer categoryId;
     @NonNull
     private String name;
     @NonNull

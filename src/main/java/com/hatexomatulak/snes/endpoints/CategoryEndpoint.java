@@ -55,7 +55,7 @@ public class CategoryEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetAllCategoryRequest")
     @ResponsePayload
-    public GetAllCategoryResponse getCategoryById(@RequestPayload GetAllCategoryRequest request) {
+    public GetAllCategoryResponse getAllCategory(@RequestPayload GetAllCategoryRequest request) {
         List<CategoryDTO> allCategories = categoryService.findAll();
         List<Category> result = new ArrayList<>();
         allCategories.forEach(p -> result.add(p.castToCategory()));

@@ -14,13 +14,15 @@ import java.util.Date;
 public class NewsDTO {
     @Id
     @GeneratedValue
-    private Long newsId;
+    private Integer newsId;
     @NonNull
     private String name;
     @NonNull
     private String desc;
     @NonNull
     private Date date;
+    @NonNull
+    private String imagePath;
     @ManyToOne()
     @NonNull
     @JoinColumn(name = "categoryId", nullable = false)
@@ -34,6 +36,7 @@ public class NewsDTO {
         news.setDate(date.toString());
         news.setCategoryId(category.getCategoryId());
         news.setCategoryName(category.getName());
+        news.setImagePath(imagePath);
         return news;
     }
 }

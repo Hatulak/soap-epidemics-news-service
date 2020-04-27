@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 @Slf4j
 public class FileRepository {
@@ -15,17 +16,23 @@ public class FileRepository {
         log.info("Loading file  " + path);
         Path filePath = Paths.get(path);
         byte[] bytes = Files.readAllBytes(filePath);
+        byte[] encodedFile = Base64.getEncoder()
+                .encode(bytes);
         File file = new File();
         file.setName(path);
-        file.setFileData(bytes);
+        file.setFileData(encodedFile);
         return file;
     }
 
-    public void storeFile(String path, File file) throws IOException {
-        log.info("Storing file " + path);
-        byte[] fileData = file.getFileData();
+    public String storeFile(String name, byte[] fileData, String folderName) throws IOException {
+        String path = "files/" + folderName.replaceAll(" ", "") + "/" + name;
+        log.info("Saving file at" + path);
         Path savePath = Paths.get(path);
-        Files.write(savePath, fileData);
+        byte[] decodedFile = Base64.getDecoder()
+                .decode(fileData);
+        Files.createDirectories(savePath.getParent());
+        Files.write(savePath, decodedFile);
+        return savePath.toString();
     }
 
 }

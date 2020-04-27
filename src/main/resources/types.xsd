@@ -3,11 +3,11 @@
            elementFormDefault="qualified">
     <xs:complexType name="news">
         <xs:sequence>
-            <xs:element name="id" type="xs:long"/>
+            <xs:element name="id" type="xs:int"/>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="desc" type="xs:string"/>
             <xs:element name="date" type="xs:string"/>
-            <xs:element name="categoryId" type="xs:long"/>
+            <xs:element name="categoryId" type="xs:int"/>
             <xs:element name="categoryName" type="xs:string"/>
             <xs:element name="imagePath" type="xs:string"/>
         </xs:sequence>

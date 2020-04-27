@@ -4,6 +4,7 @@ import com.project.xml.types.News;
 import lombok.*;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -33,7 +34,9 @@ public class NewsDTO {
         news.setId(newsId);
         news.setName(name);
         news.setDesc(desc);
-        news.setDate(date.toString());
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String formatedDate = formatter.format(date);
+        news.setDate(formatedDate);
         news.setCategoryId(category.getCategoryId());
         news.setCategoryName(category.getName());
         news.setImagePath(imagePath);

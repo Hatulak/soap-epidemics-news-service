@@ -1,7 +1,6 @@
-from typing import List, Union
-
-from zeep import Client, Settings
 import logging
+from typing import List, Union
+from zeep import Client, Settings
 
 log = logging.getLogger(__name__)
 
@@ -37,6 +36,15 @@ class CategoryRequester:
             log.exception(f"[create_category] Problem with request.")
             return {}
         return create_category
+
+    def update_category(self, id: int, name: str) -> dict:
+        try:
+            self.client.service.UpdateCategory(id, name)
+            category_by_id = self.get_category_by_id(id)
+        except Exception:
+            log.exception(f"[update_category] Problem with request.")
+            return {}
+        return category_by_id
 
     def delete_category(self, id: int) -> str:
         try:

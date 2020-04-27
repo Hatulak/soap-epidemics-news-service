@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from zeep import Client, Settings
 import logging
@@ -23,7 +23,8 @@ class CategoryRequester:
     def get_category_by_id(self, category_id: int) -> dict:
         # fixme i dont know why but it dont work :c
         try:
-            category_by_id = self.client.service.GetCategoryById(category_id)
+            all_category: List = self.client.service.GetAllCategory()
+            category_by_id: Union[dict, None] = next((x for x in all_category if x.id == category_id), {})
         except Exception:
             log.exception(f"[get_category_by_id] Problem with request.")
             return {}

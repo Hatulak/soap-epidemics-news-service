@@ -1,6 +1,6 @@
 import base64
 import ntpath
-from typing import List
+from typing import List, Union
 
 from zeep import Client, Settings
 import logging
@@ -22,10 +22,11 @@ class NewsRequester:
             return []
         return all_news
 
-    def get_news_by_id(self, news_id: str) -> dict:
+    def get_news_by_id(self, news_id: int) -> dict:
         # fixme i dont know why but it dont work :c
         try:
-            news_by_id = self.client.service.GetNewsById(news_id)
+            all_news = self.client.service.GetAllNews()
+            news_by_id: Union[dict, None] = next((x for x in all_news if x.id == news_id), {})
         except Exception:
             log.exception(f"[get_news_by_id] Problem with request.")
             return {}

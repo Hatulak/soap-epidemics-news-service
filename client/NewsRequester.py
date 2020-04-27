@@ -22,7 +22,7 @@ class NewsRequester:
             return []
         return all_news
 
-    def get_news_by_id(self, news_id: int) -> dict:
+    def get_news_by_id(self, news_id: str) -> dict:
         # fixme i dont know why but it dont work :c
         try:
             news_by_id = self.client.service.GetNewsById(news_id)

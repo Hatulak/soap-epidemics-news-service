@@ -8,62 +8,54 @@
 
 package com.project.xml.news;
 
-import com.project.xml.types.News;
-
 import javax.xml.bind.annotation.*;
 
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="News" type="{http://www.project.com/xml/types}news"/>
+ *         &lt;element name="newsid" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "news"
+        "newsid"
 })
-@XmlRootElement(name = "GetNewsResponse")
-public class GetNewsResponse {
+@XmlRootElement(name = "GetNewsIdRequest")
+public class GetNewsIdRequest {
 
-    @XmlElement(name = "News", required = true)
-    protected News news;
+    @XmlElement(required = true)
+    protected String newsid;
 
     /**
-     * Gets the value of the news property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link News }
-     *     
+     * Gets the value of the newsid property.
+     *
+     * @return possible object is
+     * {@link String }
      */
-    public News getNews() {
-        return news;
+    public String getNewsid() {
+        return newsid;
     }
 
     /**
-     * Sets the value of the news property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link News }
-     *     
+     * Sets the value of the newsid property.
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
-    public void setNews(News value) {
-        this.news = value;
+    public void setNewsid(String value) {
+        this.newsid = value;
     }
 
 }

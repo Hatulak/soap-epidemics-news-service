@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,9 @@ public class NewsService {
         return newsRepository.findById(id);
     }
 
+    public List<NewsDTO> findByDate(Date date) {
+        return newsRepository.findNewsDTOByDate(date);
+    }
 
     public NewsDTO save(NewsDTO experiment) {
         return newsRepository.save(experiment);

@@ -15,6 +15,7 @@ from login_to_admin_panel_window import Ui_LoginAdminPanel
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        self.main_window = MainWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
         MainWindow.resize(1280, 900)
@@ -84,11 +85,11 @@ class Ui_MainWindow(object):
         self.adminPanelButton.setText(_translate("MainWindow", "Zaloguj do panelu admina"))
 
     def open_admin_panel(self):
-        self.admin_login_panel = QtWidgets.QMainWindow()
+        self.LoginAdminPanel = QtWidgets.QMainWindow()
         self.admin_login_panel_ui = Ui_LoginAdminPanel()
-        self.admin_login_panel_ui.setupUi(self.admin_login_panel)
-        self.admin_login_panel.show()
-        MainWindow.hide()
+        self.admin_login_panel_ui.setupUi(self.LoginAdminPanel)
+        self.LoginAdminPanel.show()
+        self.main_window.hide()
 
 
 if __name__ == "__main__":

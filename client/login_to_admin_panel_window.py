@@ -8,10 +8,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+
+from admin_panel_window import Ui_AdminPanelWindow
 
 
 class Ui_LoginAdminPanel(object):
     def setupUi(self, LoginAdminPanel):
+        self.login_admin_panel = LoginAdminPanel
         LoginAdminPanel.setObjectName("LoginAdminPanel")
         LoginAdminPanel.resize(201, 174)
         self.centralwidget = QtWidgets.QWidget(LoginAdminPanel)
@@ -38,6 +42,7 @@ class Ui_LoginAdminPanel(object):
         self.loginButton = QtWidgets.QPushButton(self.centralwidget)
         self.loginButton.setGeometry(QtCore.QRect(100, 140, 75, 23))
         self.loginButton.setObjectName("loginButton")
+        self.loginButton.clicked.connect(self.login)
         LoginAdminPanel.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(LoginAdminPanel)
@@ -51,7 +56,28 @@ class Ui_LoginAdminPanel(object):
         self.passwordLabel.setText(_translate("LoginAdminPanel", "Hasło"))
         self.loginButton.setText(_translate("LoginAdminPanel", "Zaloguj"))
 
+    def login(self):
+        self.loginLineEdit.text()
+        self.passwordLineEdit.text()
+        # Logowanie .... zwraca true/false czy coś jeżeli jesteśmy zalogowani
+        # authorized = ...
+        authorized = True
+        if authorized:
+            self.AdminPanel = QtWidgets.QMainWindow()
+            self.admin_panel_ui = Ui_AdminPanelWindow()
+            self.admin_panel_ui.setupUi(self.AdminPanel)
+            self.AdminPanel.show()
+            self.login_admin_panel.hide()
+        else:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setText("Błąd logowania")
+            msg.setInformativeText('Nieprawidłowe dane logowania')
+            msg.setWindowTitle("Błąd logowania")
+            msg.exec_()
 
+
+# main for quicker manual testing
 if __name__ == "__main__":
     import sys
 

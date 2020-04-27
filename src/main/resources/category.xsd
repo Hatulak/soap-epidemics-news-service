@@ -35,6 +35,22 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="AuthorizeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="login" type="xs:string"/>
+                <xs:element name="password" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="AuthorizeResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="isAuthorize" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
     <xs:element name="GetAllCategoryResponse">
         <xs:complexType>

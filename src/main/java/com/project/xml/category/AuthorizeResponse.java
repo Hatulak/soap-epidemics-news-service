@@ -6,62 +6,52 @@
 //
 
 
-package com.project.xml.news;
+package com.project.xml.category;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="path" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="isAuthorize" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "path"
+        "isAuthorize"
 })
-@XmlRootElement(name = "LoadFileRequest")
-public class LoadFileRequest {
+@XmlRootElement(name = "AuthorizeResponse")
+public class AuthorizeResponse {
 
-    @XmlElement(required = true)
-    protected String path;
+    protected boolean isAuthorize;
 
     /**
-     * Gets the value of the path property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * Gets the value of the isAuthorize property.
      */
-    public String getPath() {
-        return path;
+    public boolean isIsAuthorize() {
+        return isAuthorize;
     }
 
     /**
-     * Sets the value of the path property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * Sets the value of the isAuthorize property.
      */
-    public void setPath(String value) {
-        this.path = value;
+    public void setIsAuthorize(boolean value) {
+        this.isAuthorize = value;
     }
 
 }

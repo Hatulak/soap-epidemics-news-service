@@ -20,7 +20,7 @@ class CategoryRequester:
             return []
         return all_category
 
-    def get_category_by_id(self, category_id: int)-> dict:
+    def get_category_by_id(self, category_id: int) -> dict:
         # fixme i dont know why but it dont work :c
         try:
             category_by_id = self.client.service.GetCategoryById(category_id)
@@ -29,7 +29,7 @@ class CategoryRequester:
             return {}
         return category_by_id
 
-    def create_category(self, name: str)-> dict:
+    def create_category(self, name: str) -> dict:
         try:
             create_category = self.client.service.CreateCategory(name)
         except Exception:
@@ -37,10 +37,18 @@ class CategoryRequester:
             return {}
         return create_category
 
-    def delete_category(self, id: int)-> str:
+    def delete_category(self, id: int) -> str:
         try:
             result = self.client.service.DeleteCategoryById(id)
         except Exception:
             log.exception(f"[delete_category] Problem with request.")
             return "Problem"
+        return result
+
+    def authorize(self, login: str, password: str) -> bool:
+        try:
+            result = self.client.service.Authorize(login, password)
+        except Exception:
+            log.exception(f"[authorize] Problem with request.")
+            return False
         return result

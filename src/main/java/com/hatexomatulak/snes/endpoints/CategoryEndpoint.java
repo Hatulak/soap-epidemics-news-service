@@ -28,6 +28,17 @@ public class CategoryEndpoint {
     private CategoryService categoryService;
 
 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "AuthorizeRequest")
+    @ResponsePayload
+    public AuthorizeResponse authorize(@RequestPayload AuthorizeRequest request) {
+        AuthorizeResponse response = new AuthorizeResponse();
+        if (request.getLogin().equals("admin") && request.getPassword().equals("admin"))
+            response.setIsAuthorize(true);
+        else
+            response.setIsAuthorize(false);
+        return response;
+    }
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "CreateCategoryRequest")
     @ResponsePayload
     public CreateCategoryResponse createNews(@RequestPayload CreateCategoryRequest request) {

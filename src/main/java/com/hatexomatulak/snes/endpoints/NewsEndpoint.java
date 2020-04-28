@@ -133,7 +133,6 @@ public class NewsEndpoint {
             NewsDTO newsDTO = newsService.findById(request.getId()).orElseThrow(DBException::new);
             newsDTO.setName(request.getName());
             newsDTO.setDesc(request.getDesc());
-            newsDTO.setImagePath(request.getImagePath());
             newsDTO.setCategory(categoryDTO);
             newsDTO.setDate(formatter.parse(request.getDate()));
             NewsDTO saved = newsService.save(newsDTO);

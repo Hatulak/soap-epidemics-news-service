@@ -61,7 +61,6 @@
                 <xs:element name="desc" type="xs:string"/>
                 <xs:element name="date" type="xs:string"/>
                 <xs:element name="categoryId" type="xs:int"/>
-                <xs:element name="imagePath" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

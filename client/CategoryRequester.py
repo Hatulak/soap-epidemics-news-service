@@ -1,5 +1,6 @@
 import logging
 from typing import List, Union
+
 from zeep import Client, Settings
 
 log = logging.getLogger(__name__)
@@ -20,7 +21,6 @@ class CategoryRequester:
         return all_category
 
     def get_category_by_id(self, category_id: int) -> dict:
-        # fixme i dont know why but it dont work :c
         try:
             all_category: List = self.client.service.GetAllCategory()
             category_by_id: Union[dict, None] = next((x for x in all_category if x.id == category_id), {})

@@ -10,11 +10,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 
+from CategoryRequester import CategoryRequester
 from admin_panel_window import Ui_AdminPanelWindow
 
 
 class Ui_LoginAdminPanel(object):
     def setupUi(self, LoginAdminPanel):
+        self.category_requester = CategoryRequester()
         self.login_admin_panel = LoginAdminPanel
         LoginAdminPanel.setObjectName("LoginAdminPanel")
         LoginAdminPanel.resize(201, 174)
@@ -57,11 +59,7 @@ class Ui_LoginAdminPanel(object):
         self.loginButton.setText(_translate("LoginAdminPanel", "Zaloguj"))
 
     def login(self):
-        self.loginLineEdit.text()
-        self.passwordLineEdit.text()
-        # Logowanie .... zwraca true/false czy coś jeżeli jesteśmy zalogowani
-        # authorized = ...
-        authorized = True
+        authorized = self.category_requester.authorize(self.loginLineEdit.text(), self.passwordLineEdit.text())
         if authorized:
             self.AdminPanel = QtWidgets.QMainWindow()
             self.admin_panel_ui = Ui_AdminPanelWindow()

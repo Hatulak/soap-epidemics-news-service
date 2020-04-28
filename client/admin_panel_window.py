@@ -16,6 +16,7 @@ from NewsRequester import NewsRequester
 
 class Ui_AdminPanelWindow(object):
     def setupUi(self, AdminPanelWindow):
+        self.edited_news_file_changed = False
         self.choosen_file_name_to_new_news = ""
         self.choosen_file_name_to_edit_news = ""
         self.category_requester = CategoryRequester()
@@ -159,31 +160,38 @@ class Ui_AdminPanelWindow(object):
 
         self.addCategoryButton.clicked.connect(self.add_category)
         self.addAddonButton.clicked.connect(self.choose_file_to_new_news)
+        self.editAddonButton.clicked.connect(self.choose_file_to_edit_news)
         self.addNewsButton.clicked.connect(self.add_news)
         self.editCategoryButton.clicked.connect(self.edit_category)
         self.editNewsButton.clicked.connect(self.edit_news)
         self.deleteCategoryButton.clicked.connect(self.delete_category)
         self.deleteNewsButton.clicked.connect(self.delete_news)
-        self._refresh_combo_boxes()
         self.chooseCategoryComboBox.currentTextChanged.connect(self.load_category)
         self.chooseNewsComboBox.currentTextChanged.connect(self.load_news)
+        self._refresh_combo_boxes()
         AdminPanelWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(AdminPanelWindow)
         QtCore.QMetaObject.connectSlotsByName(AdminPanelWindow)
 
     def load_category(self):
-        pass  # todo - jak bedzie mozliwosc to zmienic
-        # category = self.category_requester.get_category_by_id(self.chooseCategoryComboBox.currentData())
-        # self.editCategoryLineEdit.setText(category.name)
+        if self.chooseCategoryComboBox.currentData():
+            category = self.category_requester.get_category_by_id(int(self.chooseCategoryComboBox.currentData()))
+            self.editCategoryLineEdit.setText(category.name)
+        else:
+            self.editCategoryLineEdit.setText("")
 
     def load_news(self):
         if self.chooseNewsComboBox.currentData():
             news = self.news_requester.get_news_by_id(int(self.chooseNewsComboBox.currentData()))
-            print(news)
             self.editTitleLineEdit.setText(news.name)
             self.editDescriptionTextEdit.setText(news.desc)
             self.editCategoryComboBox.setCurrentText(news.categoryName)
+            self.choosen_file_name_to_edit_news = news.imagePath
+        else:
+            self.editTitleLineEdit.setText("")
+            self.editDescriptionTextEdit.setText("")
+            self.choosen_file_name_to_edit_news = ""
 
     def add_category(self):
         if self.addCategoryLineEdit.text():
@@ -195,15 +203,15 @@ class Ui_AdminPanelWindow(object):
             self._show_messge_dialog("Błąd", "Nazwa nie może być pusta", QMessageBox.Warning)
 
     def edit_category(self):
-        pass  # todo - jak bedzie mozliwosc edycji to zmienic
-
-    # if self.editCategoryLineEdit.text():
-    #     self.category_requester.(self.addCategoryLineEdit.text())
-    #     self.addCategoryLineEdit.setText("")
-    #     self._show_messge_dialog("Sukces", "Dodano kategorię", QMessageBox.Information)
-    #     self._refresh_combo_boxes()
-    # else:
-    #     self._show_messge_dialog("Błąd", "Nazwa nie może być pusta", QMessageBox.Warning)
+        if self.editCategoryLineEdit.text():
+            self.category_requester.update_category(
+                int(self.chooseCategoryComboBox.currentData()),
+                self.editCategoryLineEdit.text())
+            self.editCategoryLineEdit.setText("")
+            self._show_messge_dialog("Sukces", "Dodano kategorię", QMessageBox.Information)
+            self._refresh_combo_boxes()
+        else:
+            self._show_messge_dialog("Błąd", "Nazwa nie może być pusta", QMessageBox.Warning)
 
     def choose_file_to_new_news(self):
         dlg = QFileDialog()
@@ -227,11 +235,12 @@ class Ui_AdminPanelWindow(object):
         if dlg.exec_():
             filenames = dlg.selectedFiles()
 
+            self.edited_news_file_changed = True
             self.choosen_file_name_to_edit_news = filenames[0]
-            self.addAddonLabel.setText("Plik wybrany")
+            self.editAddonLabel.setText("Plik wybrany")
         else:
             self.choosen_file_name_to_edit_news = ""
-            self.addAddonLabel.setText("Plik niewybrany")
+            self.editAddonLabel.setText("Plik niewybrany")
 
     def add_news(self):
         if self.addTitleLineEdit.text():
@@ -255,21 +264,26 @@ class Ui_AdminPanelWindow(object):
             self._show_messge_dialog("Błąd", "Tytuł nie może być pusty", QMessageBox.Warning)
 
     def edit_news(self):
-        pass  # todo - jak bedzie mozliwosc edycji to zmienic
-        # if self.editTitleLineEdit.text():
-        #     if self.editDescriptionTextEdit.toPlainText():
-        #         if self.choosen_file_name_to_new_news:
-        #             self.news_requester.edit_news(self.editTitleLineEdit.text(),
-        #                                             self.editDescriptionTextEdit.toPlainText(),
-        #                                             str(datetime.now().strftime('%d/%m/%Y')),
-        #                                             int(self.editCategoryComboBox.currentData()))
-        #             self._show_messge_dialog("Sukces", "Dodano newsa", QMessageBox.Information)
-        #         else:
-        #             self._show_messge_dialog("Błąd", "Należy wybrać załącznik", QMessageBox.Warning)
-        #     else:
-        #         self._show_messge_dialog("Błąd", "Opis nie może być pusty", QMessageBox.Warning)
-        # else:
-        #     self._show_messge_dialog("Błąd", "Tytuł nie może być pusty", QMessageBox.Warning)
+        if self.editTitleLineEdit.text():
+            if self.editDescriptionTextEdit.toPlainText():
+                if self.choosen_file_name_to_edit_news:
+                    self.news_requester.update_news(int(self.chooseNewsComboBox.currentData()),
+                                                    self.editTitleLineEdit.text(),
+                                                    self.editDescriptionTextEdit.toPlainText(),
+                                                    str(datetime.now().strftime('%d/%m/%Y')),
+                                                    int(self.editCategoryComboBox.currentData()))
+                    if self.edited_news_file_changed:
+                        self.news_requester.store_file(self.choosen_file_name_to_edit_news,
+                                                       int(self.chooseNewsComboBox.currentData()))
+                        self.edited_news_file_changed = False
+                    self._refresh_combo_boxes()
+                    self._show_messge_dialog("Sukces", "Dodano newsa", QMessageBox.Information)
+                else:
+                    self._show_messge_dialog("Błąd", "Należy wybrać załącznik", QMessageBox.Warning)
+            else:
+                self._show_messge_dialog("Błąd", "Opis nie może być pusty", QMessageBox.Warning)
+        else:
+            self._show_messge_dialog("Błąd", "Tytuł nie może być pusty", QMessageBox.Warning)
 
     def delete_category(self):
         self.category_requester.delete_category(int(self.chooseCategoryComboBox.currentData()))
@@ -297,18 +311,15 @@ class Ui_AdminPanelWindow(object):
             self.addCategoryComboBox.addItem(c.name, str(c.id))
 
         self.editCategoryComboBox.clear()
-        categories = self.category_requester.get_all_category()
         for c in categories:
             self.editCategoryComboBox.addItem(c.name, str(c.id))
 
         self.chooseCategoryComboBox.clear()
-        categories = self.category_requester.get_all_category()
         for c in categories:
             self.chooseCategoryComboBox.addItem(c.name, str(c.id))
 
         self.chooseNewsComboBox.clear()
         newses = self.news_requester.get_all_news()
-        print(newses)
         for n in newses:
             self.chooseNewsComboBox.addItem(n.name, str(n.id))
 

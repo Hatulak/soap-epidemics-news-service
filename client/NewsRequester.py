@@ -98,7 +98,6 @@ class NewsRequester:
     def load_file(self, filepath: str, save_path: str = "imageToSave.png") -> str:
         try:
             result = self.client.service.LoadFile(filepath)
-            # fixme only for testing 
             with open(save_path, "wb") as fh:
                 b_decode = base64.standard_b64decode(result.fileData)
                 fh.write(b_decode)

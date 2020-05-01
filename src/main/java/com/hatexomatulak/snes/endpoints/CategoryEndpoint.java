@@ -28,6 +28,17 @@ public class CategoryEndpoint {
     private CategoryService categoryService;
 
 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "AuthorizeRequest")
+    @ResponsePayload
+    public AuthorizeResponse authorize(@RequestPayload AuthorizeRequest request) {
+        AuthorizeResponse response = new AuthorizeResponse();
+        if (request.getLogin().equals("admin") && request.getPassword().equals("admin"))
+            response.setIsAuthorize(true);
+        else
+            response.setIsAuthorize(false);
+        return response;
+    }
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "CreateCategoryRequest")
     @ResponsePayload
     public CreateCategoryResponse createNews(@RequestPayload CreateCategoryRequest request) {
@@ -41,10 +52,10 @@ public class CategoryEndpoint {
     @SneakyThrows(DBException.class)
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetCategoryByIdRequest")
     @ResponsePayload
-    public GetCategoryResponse getCategoryById(@RequestPayload GetCategoryByIdRequest request) {
+    public CreateCategoryResponse getCategoryById(@RequestPayload GetCategoryByIdRequest request) {
         try {
             CategoryDTO categoryDTO = categoryService.findById(request.getId()).orElseThrow(DBException::new);
-            GetCategoryResponse response = new GetCategoryResponse();
+            CreateCategoryResponse response = new CreateCategoryResponse();
             response.setCategory(categoryDTO.castToCategory());
             return response;
         } catch (DBException e) {
@@ -62,6 +73,22 @@ public class CategoryEndpoint {
         GetAllCategoryResponse response = new GetAllCategoryResponse();
         response.getCategory().addAll(result);
         return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UpdateCategoryRequest")
+    @ResponsePayload
+    public CreateCategoryResponse updateCategory(@RequestPayload UpdateCategoryRequest request) throws DBException {
+        try {
+            CategoryDTO categoryDTO = categoryService.findById(request.getId()).orElseThrow(DBException::new);
+            categoryDTO.setName(request.getName());
+            CategoryDTO saved = categoryService.save(categoryDTO);
+            CreateCategoryResponse response = new CreateCategoryResponse();
+            response.setCategory(saved.castToCategory());
+            return response;
+        } catch (DBException e) {
+            log.error("[getNewsById] Problem with database, cannot find category  by categoryId. Id:  " + request.getId());
+            throw new DBException("Problem with database, cannot find category by categoryId");
+        }
     }
 
     @SneakyThrows(DBException.class)

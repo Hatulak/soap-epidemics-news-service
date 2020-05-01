@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.*;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="desc" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}string"/>
@@ -35,14 +36,16 @@ import javax.xml.bind.annotation.*;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
+        "id",
         "name",
         "desc",
         "date",
         "categoryId"
 })
-@XmlRootElement(name = "CreateNewsRequest")
-public class CreateNewsRequest {
+@XmlRootElement(name = "UpdateNewsRequest")
+public class UpdateNewsRequest {
 
+    protected int id;
     @XmlElement(required = true)
     protected String name;
     @XmlElement(required = true)
@@ -50,6 +53,22 @@ public class CreateNewsRequest {
     @XmlElement(required = true)
     protected String date;
     protected int categoryId;
+
+    /**
+     * Gets the value of the id property.
+     * 
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the value of the id property.
+     * 
+     */
+    public void setId(int value) {
+        this.id = value;
+    }
 
     /**
      * Gets the value of the name property.

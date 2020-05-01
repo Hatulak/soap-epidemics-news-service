@@ -6,7 +6,7 @@
 //
 
 
-package com.project.xml.news;
+package com.project.xml.category;
 
 import javax.xml.bind.annotation.*;
 
@@ -21,7 +21,8 @@ import javax.xml.bind.annotation.*;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="result" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -32,36 +33,54 @@ import javax.xml.bind.annotation.*;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "result"
+        "id",
+        "name"
 })
-@XmlRootElement(name = "DeleteNewsResponse")
-public class DeleteNewsResponse {
+@XmlRootElement(name = "UpdateCategoryRequest")
+public class UpdateCategoryRequest {
 
+    protected int id;
     @XmlElement(required = true)
-    protected String result;
+    protected String name;
 
     /**
-     * Gets the value of the result property.
+     * Gets the value of the id property.
+     * 
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the value of the id property.
+     * 
+     */
+    public void setId(int value) {
+        this.id = value;
+    }
+
+    /**
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getResult() {
-        return result;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the value of the result property.
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setResult(String value) {
-        this.result = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
 }

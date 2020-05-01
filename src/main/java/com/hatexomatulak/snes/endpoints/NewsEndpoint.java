@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -39,19 +41,54 @@ public class NewsEndpoint {
     private FileRepository fileRepository = new FileRepository();
 
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetNewsByIdRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetNewsIdRequest")
     @ResponsePayload
-    public GetNewsResponse getNewsById(@RequestPayload GetNewsByIdRequest request) throws DBException {
-
+    public GetNewsResponse getNewsById(@RequestPayload GetNewsIdRequest request) throws DBException {
         NewsDTO newsDTO = null;
         try {
-            newsDTO = newsService.findById(request.getId()).orElseThrow(DBException::new);
+            newsDTO = newsService.findById(Integer.parseInt(request.getNewsid())).orElseThrow(DBException::new);
             GetNewsResponse response = new GetNewsResponse();
 
             response.setNews(newsDTO.castToNews());
             return response;
         } catch (DBException e) {
-            log.error("[getNewsById] Problem with database, cannot find news by news. Id:  " + request.getId());
+            log.error("[getNewsById] Problem with database, cannot find news by news. Id:  " + request.getNewsid());
+            throw new DBException("Problem with database, cannot find news by news");
+        }
+    }
+
+    @SneakyThrows(ParseException.class)
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetNewsByDateRequest")
+    @ResponsePayload
+    public GetAllNewsResponse getNewsByDate(@RequestPayload GetNewsByDateRequest request) {
+        NewsDTO newsDTO = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date parse = formatter.parse(request.getDate());
+        List<NewsDTO> newsByDate = newsService.findByDate(parse);
+        GetAllNewsResponse response = new GetAllNewsResponse();
+        List<News> result = new ArrayList<>();
+        newsByDate.forEach(p -> result.add(p.castToNews()));
+        response.getNews().addAll(result);
+        return response;
+    }
+
+    @SneakyThrows(ParseException.class)
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetNewsByDateAndCategoryRequest")
+    @ResponsePayload
+    public GetAllNewsResponse getNewsByDateAndCategory(@RequestPayload GetNewsByDateAndCategoryRequest request) throws DBException {
+        try {
+            NewsDTO newsDTO = null;
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date parse = formatter.parse(request.getDate());
+            CategoryDTO categoryDTO = categoryService.findById(request.getCategoryId()).orElseThrow(DBException::new);
+            List<NewsDTO> newsByDate = newsService.findByDateAndCategory(parse, categoryDTO);
+            GetAllNewsResponse response = new GetAllNewsResponse();
+            List<News> result = new ArrayList<>();
+            newsByDate.forEach(p -> result.add(p.castToNews()));
+            response.getNews().addAll(result);
+            return response;
+        } catch (DBException e) {
+            log.error("[getNewsByDateAndCategory] Problem with database, cannot find categroy by category id :" + request.getCategoryId());
             throw new DBException("Problem with database, cannot find news by news");
         }
     }
@@ -74,8 +111,31 @@ public class NewsEndpoint {
     public CreateNewsResponse createNews(@RequestPayload CreateNewsRequest request) {
         try {
             CategoryDTO categoryDTO = categoryService.findById(request.getCategoryId()).orElseThrow(DBException::new);
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             NewsDTO newsDTO = new NewsDTO(request.getName(), request.getDesc(), formatter.parse(request.getDate()), "", categoryDTO);
+            NewsDTO saved = newsService.save(newsDTO);
+            CreateNewsResponse response = new CreateNewsResponse();
+            response.setNews(saved.castToNews());
+            return response;
+        } catch (DBException e) {
+            log.error("[createNews] Problem with database, cannot find category  by categoryId. Id:  " + request.getCategoryId());
+            throw new DBException("Problem with database, cannot find category by categoryId");
+        }
+
+    }
+
+    @SneakyThrows({ParseException.class, DBException.class})
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UpdateNewsRequest")
+    @ResponsePayload
+    public CreateNewsResponse updateNews(@RequestPayload UpdateNewsRequest request) {
+        try {
+            CategoryDTO categoryDTO = categoryService.findById(request.getCategoryId()).orElseThrow(DBException::new);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            NewsDTO newsDTO = newsService.findById(request.getId()).orElseThrow(DBException::new);
+            newsDTO.setName(request.getName());
+            newsDTO.setDesc(request.getDesc());
+            newsDTO.setCategory(categoryDTO);
+            newsDTO.setDate(formatter.parse(request.getDate()));
             NewsDTO saved = newsService.save(newsDTO);
             CreateNewsResponse response = new CreateNewsResponse();
             response.setNews(saved.castToNews());
@@ -105,7 +165,7 @@ public class NewsEndpoint {
         }
     }
 
-
+    @Async
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "StoreFileRequest")
     @ResponsePayload
     public void store(@RequestPayload StoreFileRequest requestElement) throws IOException, DBException {

@@ -3,20 +3,28 @@
     <con:settings/>
     <con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="CategoryPortSoap11" type="wsdl" bindingName="{http://www.project.com/xml/category}CategoryPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/service/category.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <con:settings/>
+
         <con:definitionCache type="TEXT" rootPart="http://localhost:8080/service/category.wsdl">
             <con:part>
                 <con:url>http://localhost:8080/service/category.wsdl</con:url>
                 <con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.project.com/xml/category" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch0="http://www.project.com/xml/types" xmlns:sch1="http://www.project.com/xml/category" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.project.com/xml/category">
   <wsdl:types>
-    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.project.com/xml/types" xmlns:tns="http://www.project.com/xml/types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.project.com/xml/types" xmlns="http://www.project.com/xml/types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:complexType name="news">
         <xs:sequence>
-          <xs:element name="id" type="xs:long"/>
+          <xs:element name="id" type="xs:int"/>
           <xs:element name="name" type="xs:string"/>
           <xs:element name="desc" type="xs:string"/>
           <xs:element name="date" type="xs:string"/>
-          <xs:element name="categoryId" type="xs:long"/>
+          <xs:element name="categoryId" type="xs:int"/>
           <xs:element name="categoryName" type="xs:string"/>
+          <xs:element name="imagePath" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="file">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="fileData" type="xs:base64Binary"/>
         </xs:sequence>
       </xs:complexType>
     </xs:schema>
@@ -25,7 +33,7 @@
       <xs:element name="GetCategoryByIdRequest">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="id" type="xs:long"/>
+            <xs:element name="id" type="xs:int"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -36,6 +44,29 @@
         <xs:complexType>
           <xs:sequence>
             <xs:element name="name" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UpdateCategoryRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="name" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AuthorizeRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="login" type="xs:string"/>
+            <xs:element name="password" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AuthorizeResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="isAuthorize" type="xs:boolean"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -63,7 +94,7 @@
       <xs:element name="DeleteCategoryByIdRequest">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="id" type="xs:long"/>
+            <xs:element name="id" type="xs:int"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -76,7 +107,7 @@
       </xs:element>
       <xs:complexType name="category">
         <xs:sequence>
-          <xs:element name="id" type="xs:long"/>
+          <xs:element name="id" type="xs:int"/>
           <xs:element name="name" type="xs:string"/>
           <xs:element maxOccurs="unbounded" minOccurs="0" name="news" type="sn:news"/>
         </xs:sequence>
@@ -89,6 +120,9 @@
   <wsdl:message name="DeleteCategoryByIdRequest">
     <wsdl:part element="tns:DeleteCategoryByIdRequest" name="DeleteCategoryByIdRequest"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="UpdateCategoryRequest">
+    <wsdl:part element="tns:UpdateCategoryRequest" name="UpdateCategoryRequest"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="GetCategoryResponse">
     <wsdl:part element="tns:GetCategoryResponse" name="GetCategoryResponse"></wsdl:part>
   </wsdl:message>
@@ -100,6 +134,12 @@
   </wsdl:message>
   <wsdl:message name="CreateCategoryRequest">
     <wsdl:part element="tns:CreateCategoryRequest" name="CreateCategoryRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AuthorizeResponse">
+    <wsdl:part element="tns:AuthorizeResponse" name="AuthorizeResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AuthorizeRequest">
+    <wsdl:part element="tns:AuthorizeRequest" name="AuthorizeRequest"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="GetAllCategoryResponse">
     <wsdl:part element="tns:GetAllCategoryResponse" name="GetAllCategoryResponse"></wsdl:part>
@@ -115,6 +155,9 @@
     <wsdl:operation name="DeleteCategoryById">
       <wsdl:input message="tns:DeleteCategoryByIdRequest" name="DeleteCategoryByIdRequest"></wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="UpdateCategory">
+      <wsdl:input message="tns:UpdateCategoryRequest" name="UpdateCategoryRequest"></wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="GetCategory">
       <wsdl:output message="tns:GetCategoryResponse" name="GetCategoryResponse"></wsdl:output>
     </wsdl:operation>
@@ -124,6 +167,10 @@
     <wsdl:operation name="CreateCategory">
       <wsdl:input message="tns:CreateCategoryRequest" name="CreateCategoryRequest"></wsdl:input>
       <wsdl:output message="tns:CreateCategoryResponse" name="CreateCategoryResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Authorize">
+      <wsdl:input message="tns:AuthorizeRequest" name="AuthorizeRequest"></wsdl:input>
+      <wsdl:output message="tns:AuthorizeResponse" name="AuthorizeResponse"></wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="DeleteCategory">
       <wsdl:output message="tns:DeleteCategoryResponse" name="DeleteCategoryResponse"></wsdl:output>
@@ -146,6 +193,12 @@
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="UpdateCategory">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="UpdateCategoryRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="GetCategory">
       <soap:operation soapAction=""/>
       <wsdl:output name="GetCategoryResponse">
@@ -164,6 +217,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="CreateCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Authorize">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="AuthorizeRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="AuthorizeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -198,7 +260,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <cat:CreateCategoryRequest>
-         <cat:name>ebola</cat:name>
+         <cat:name>ebola </cat:name>
       </cat:CreateCategoryRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request>
@@ -268,7 +330,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <cat:GetCategoryByIdRequest>
-         <cat:id>2</cat:id>
+         <cat:id>1</cat:id>
       </cat:GetCategoryByIdRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request>
@@ -293,7 +355,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <cat:DeleteCategoryByIdRequest>
-         <cat:id>2</cat:id>
+         <cat:id>4</cat:id>
       </cat:DeleteCategoryByIdRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request>
@@ -321,6 +383,65 @@
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request>
                 <con:wsaConfig mustUnderstand="NONE" version="200508"/>
+            </con:call>
+        </con:operation>
+        <con:operation isOneWay="false" action="" name="UpdateCategory" bindingOperationName="UpdateCategory"
+                       type="One-Way" inputName="UpdateCategoryRequest" sendsAttachments="false" anonymous="optional">
+            <con:settings/>
+            <con:call name="Request 1">
+                <con:settings>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                    </con:setting>
+                </con:settings>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8080/service/category</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cat="http://www.project.com/xml/category">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cat:UpdateCategoryRequest>
+         <cat:id>2</cat:id>
+         <cat:name>korona</cat:name>
+      </cat:UpdateCategoryRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:credentials>
+                    <con:authType>Global HTTP Settings</con:authType>
+                </con:credentials>
+                <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                <con:jmsPropertyConfig/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"
+                               action="http://www.project.com/xml/category/CategoryPort/UpdateCategoryRequest"/>
+                <con:wsrmConfig version="1.2"/>
+            </con:call>
+        </con:operation>
+        <con:operation isOneWay="false" action="" name="Authorize" bindingOperationName="Authorize"
+                       type="Request-Response" outputName="AuthorizeResponse" inputName="AuthorizeRequest"
+                       receivesAttachments="false" sendsAttachments="false" anonymous="optional">
+            <con:settings/>
+            <con:call name="Request 1">
+                <con:settings>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                    </con:setting>
+                </con:settings>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8080/service/category</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cat="http://www.project.com/xml/category">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cat:AuthorizeRequest>
+         <cat:login>?</cat:login>
+         <cat:password>?</cat:password>
+      </cat:AuthorizeRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:credentials>
+                    <con:authType>Global HTTP Settings</con:authType>
+                </con:credentials>
+                <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                <con:jmsPropertyConfig/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"
+                               action="http://www.project.com/xml/category/CategoryPort/AuthorizeRequest"/>
+                <con:wsrmConfig version="1.2"/>
             </con:call>
         </con:operation>
     </con:interface>

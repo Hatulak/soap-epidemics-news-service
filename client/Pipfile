@@ -9,6 +9,7 @@ verify_ssl = true
 pyqt5 = "*"
 pyqt5-stubs = "==5.14.2.0"
 zeep = "*"
+reportlab = "*"
 
 [requires]
 python_version = "3.7"

@@ -2,6 +2,9 @@ import base64
 import logging
 import ntpath
 from typing import List, Union
+
+from reportlab.lib.units import inch
+from reportlab.pdfgen import canvas
 from zeep import Client, Settings
 
 log = logging.getLogger(__name__)
@@ -92,14 +95,36 @@ class NewsRequester:
             log.exception(f"[store_file] Problem with making request.")
             return "Problem"
 
-    def load_file(self, filepath: str):
+    def load_file(self, filepath: str, save_path: str = "imageToSave.png") -> str:
         try:
             result = self.client.service.LoadFile(filepath)
-            # fixme only for testing 
-            with open("imageToSave.png", "wb") as fh:
+            with open(save_path, "wb") as fh:
                 b_decode = base64.standard_b64decode(result.fileData)
                 fh.write(b_decode)
         except Exception:
             log.exception(f"[store_file] Problem with making request.")
             return "Problem"
-        return result
+        return save_path
+
+    def generate_pdf(self, news_id: int, filename: str):
+        news_by_id = self.get_news_by_id(news_id)
+        if not news_by_id:
+            return "Problem with generating pdf file, cannot load news"
+        path = self.load_file(news_by_id["imagePath"])
+        pdf = canvas.Canvas(filename)
+        pdf.setTitle(news_by_id['name'])
+        pdf.setFont('Courier', 30)
+        pdf.drawCentredString(300, 770, news_by_id['name'])
+        pdf.setFont('Courier', 20)
+        pdf.drawCentredString(300, 750, "Kategoria: " + news_by_id['categoryName'])
+        pdf.drawCentredString(300, 730, news_by_id['date'])
+        pdf.drawCentredString(300, 710, "Opis")
+        text = pdf.beginText(20, 690)
+        text.setFont('Courier', 20)
+
+        desc_ = news_by_id['desc']
+        desc__split = desc_.split("\n")
+        text.textLines(desc__split)
+        pdf.drawText(text)
+        pdf.drawInlineImage(path, 40, 10, 7*inch,7*inch )
+        pdf.save()

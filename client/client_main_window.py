@@ -10,12 +10,17 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from CategoryRequester import CategoryRequester
+from NewsRequester import NewsRequester
 from login_to_admin_panel_window import Ui_LoginAdminPanel
+from news_details_window import Ui_NewsDetailsWindow
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         self.main_window = MainWindow
+        self.category_requester = CategoryRequester()
+        self.news_requester = NewsRequester()
+        self.newsList = None
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
         MainWindow.resize(1280, 900)
@@ -32,14 +37,9 @@ class Ui_MainWindow(object):
         self.calendarWidget.setGeometry(QtCore.QRect(10, 200, 321, 211))
         self.calendarWidget.setDateEditEnabled(True)
         self.calendarWidget.setObjectName("calendarWidget")
-
-        requester_cat = CategoryRequester()
         self.epidemyComboBox = QtWidgets.QComboBox(self.centralwidget)
         self.epidemyComboBox.setGeometry(QtCore.QRect(10, 130, 321, 22))
         self.epidemyComboBox.setObjectName("epidemyComboBox")
-        categories_list = requester_cat.get_all_category()
-        # print(categories_list)
-
         self.searchByEpidemyLabel = QtWidgets.QLabel(self.centralwidget)
         self.searchByEpidemyLabel.setGeometry(QtCore.QRect(10, 100, 321, 21))
         font = QtGui.QFont()
@@ -64,14 +64,17 @@ class Ui_MainWindow(object):
         self.searchByDateLabel.setFont(font)
         self.searchByDateLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.searchByDateLabel.setObjectName("searchByDateLabel")
-        self.informationListView = QtWidgets.QListView(self.centralwidget)
-        self.informationListView.setGeometry(QtCore.QRect(345, 111, 931, 781))
-        self.informationListView.setObjectName("informationListView")
         self.adminPanelButton = QtWidgets.QPushButton(self.centralwidget)
         self.adminPanelButton.setGeometry(QtCore.QRect(10, 870, 141, 23))
         self.adminPanelButton.setObjectName("adminPanelButton")
-        self.adminPanelButton.clicked.connect(self.open_admin_panel)
+        self.listWidget = QtWidgets.QListWidget(self.centralwidget)
+        self.listWidget.setGeometry(QtCore.QRect(360, 100, 911, 791))
+        self.listWidget.setObjectName("listWidget")
+        self.listWidget.itemDoubleClicked.connect(self.show_news_details)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.populateInfoList()
+        self.updateInfoList()
+        self.adminPanelButton.clicked.connect(self.open_admin_panel)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -91,6 +94,21 @@ class Ui_MainWindow(object):
         self.LoginAdminPanel.show()
         self.main_window.hide()
 
+    def populateInfoList(self):
+        self.newsList = self.news_requester.get_all_news()
+        print(self.newsList)
+
+    def updateInfoList(self):
+        for i in self.newsList:
+            item = QtWidgets.QListWidgetItem(
+                str("Epidemia: " + i.categoryName + "\nData: " + i.date + "  Tytuł: " + i.name), self.listWidget)
+            item.setData(1, i.id)
+
+    def show_news_details(self, item):
+        self.NewsDetailsWindow = QtWidgets.QMainWindow()
+        self.news_details_window_ui = Ui_NewsDetailsWindow()
+        self.news_details_window_ui.setupUi(self.NewsDetailsWindow, item.data(1))
+        self.NewsDetailsWindow.show()
 
 if __name__ == "__main__":
     import sys

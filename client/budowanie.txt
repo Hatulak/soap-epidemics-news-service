@@ -2,3 +2,4 @@ Komenda do konwersji z pliku .ui na .py
 pyuic5 -x client_main_window.ui -o client_main_window.py
 pyuic5 -x login_to_admin_panel_window.ui -o login_to_admin_panel_window.py
 pyuic5 -x admin_panel_window.ui -o admin_panel_window.py
+pyuic5 -x news_details_window.ui -o news_details_window.py

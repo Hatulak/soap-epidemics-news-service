@@ -34,7 +34,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.calendarWidget = QtWidgets.QCalendarWidget(self.centralwidget)
-        self.calendarWidget.setGeometry(QtCore.QRect(10, 200, 321, 211))
+        self.calendarWidget.setGeometry(QtCore.QRect(10, 250, 321, 211))
         self.calendarWidget.setDateEditEnabled(True)
         self.calendarWidget.setObjectName("calendarWidget")
         self.epidemyComboBox = QtWidgets.QComboBox(self.centralwidget)
@@ -58,7 +58,7 @@ class Ui_MainWindow(object):
         self.headerLabel.setWordWrap(False)
         self.headerLabel.setObjectName("headerLabel")
         self.searchByDateLabel = QtWidgets.QLabel(self.centralwidget)
-        self.searchByDateLabel.setGeometry(QtCore.QRect(10, 170, 321, 21))
+        self.searchByDateLabel.setGeometry(QtCore.QRect(10, 210, 321, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.searchByDateLabel.setFont(font)
@@ -70,8 +70,28 @@ class Ui_MainWindow(object):
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
         self.listWidget.setGeometry(QtCore.QRect(360, 100, 911, 791))
         self.listWidget.setObjectName("listWidget")
-        self.listWidget.itemDoubleClicked.connect(self.show_news_details)
+        self.searchByEpidemyButton = QtWidgets.QPushButton(self.centralwidget)
+        self.searchByEpidemyButton.setGeometry(QtCore.QRect(200, 170, 131, 23))
+        self.searchByEpidemyButton.setObjectName("searchByEpidemyButton")
+        self.searchByDateButton = QtWidgets.QPushButton(self.centralwidget)
+        self.searchByDateButton.setGeometry(QtCore.QRect(200, 480, 131, 23))
+        self.searchByDateButton.setObjectName("searchByDateButton")
+        self.searcByBothFiltersButton = QtWidgets.QPushButton(self.centralwidget)
+        self.searcByBothFiltersButton.setGeometry(QtCore.QRect(20, 480, 151, 23))
+        self.searcByBothFiltersButton.setObjectName("searcByBothFiltersButton")
+        self.resetButton = QtWidgets.QPushButton(self.centralwidget)
+        self.resetButton.setGeometry(QtCore.QRect(20, 530, 75, 23))
+        self.resetButton.setObjectName("resetButton")
         MainWindow.setCentralWidget(self.centralwidget)
+
+        self.listWidget.itemDoubleClicked.connect(self.show_news_details)
+        self.load_epidemy_combobox()
+
+        self.searchByEpidemyButton.clicked.connect(self.search_by_epidemy)
+        self.searchByDateButton.clicked.connect(self.search_by_date)
+        self.resetButton.clicked.connect(self.reset_search)
+        self.searcByBothFiltersButton.clicked.connect(self.search_by_date_and_epidemy)
+
         self.populateInfoList()
         self.updateInfoList()
         self.adminPanelButton.clicked.connect(self.open_admin_panel)
@@ -86,6 +106,27 @@ class Ui_MainWindow(object):
         self.headerLabel.setText(_translate("MainWindow", "Soap News Epidemic Service"))
         self.searchByDateLabel.setText(_translate("MainWindow", "Wyszukaj po dacie"))
         self.adminPanelButton.setText(_translate("MainWindow", "Zaloguj do panelu admina"))
+        self.searchByEpidemyButton.setText(_translate("MainWindow", "Wyszukaj po epidemii"))
+        self.searchByDateButton.setText(_translate("MainWindow", "Wyszukaj po dacie"))
+        self.searcByBothFiltersButton.setText(_translate("MainWindow", "Wyszukaj po obu filtrach"))
+        self.resetButton.setText(_translate("MainWindow", "Reset"))
+
+    def reset_search(self):
+        self.newsList = NewsRequester().get_all_news()
+        self.updateInfoList()
+
+    def search_by_epidemy(self):
+        self.newsList = NewsRequester().get_news_by_category(int(self.epidemyComboBox.currentData()))
+        self.updateInfoList()
+
+    def search_by_date(self):
+        self.newsList = NewsRequester().get_news_by_date(self.calendarWidget.selectedDate().toString("dd/MM/yyyy"))
+        self.updateInfoList()
+
+    def search_by_date_and_epidemy(self):
+        self.newsList = NewsRequester().get_news_by_date_and_category(
+            self.calendarWidget.selectedDate().toString("dd/MM/yyyy"), int(self.epidemyComboBox.currentData()))
+        self.updateInfoList()
 
     def open_admin_panel(self):
         self.LoginAdminPanel = QtWidgets.QMainWindow()
@@ -96,9 +137,9 @@ class Ui_MainWindow(object):
 
     def populateInfoList(self):
         self.newsList = self.news_requester.get_all_news()
-        print(self.newsList)
 
     def updateInfoList(self):
+        self.listWidget.clear()
         for i in self.newsList:
             item = QtWidgets.QListWidgetItem(
                 str("Epidemia: " + i.categoryName + "\nData: " + i.date + "  Tytuł: " + i.name), self.listWidget)
@@ -109,6 +150,13 @@ class Ui_MainWindow(object):
         self.news_details_window_ui = Ui_NewsDetailsWindow()
         self.news_details_window_ui.setupUi(self.NewsDetailsWindow, item.data(1))
         self.NewsDetailsWindow.show()
+
+    def load_epidemy_combobox(self):
+        categories = CategoryRequester().get_all_category()
+        self.epidemyComboBox.clear()
+        for c in categories:
+            self.epidemyComboBox.addItem(c.name, str(c.id))
+
 
 if __name__ == "__main__":
     import sys

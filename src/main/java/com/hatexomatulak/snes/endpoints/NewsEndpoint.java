@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -164,7 +165,7 @@ public class NewsEndpoint {
         }
     }
 
-
+    @Async
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "StoreFileRequest")
     @ResponsePayload
     public void store(@RequestPayload StoreFileRequest requestElement) throws IOException, DBException {

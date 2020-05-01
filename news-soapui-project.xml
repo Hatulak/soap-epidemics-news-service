@@ -345,8 +345,8 @@
       <news:CreateNewsRequest>
          <news:name>uwaga klątwa faraona </news:name>
          <news:desc>taka  sprawa  </news:desc>
-         <news:date>31/12/1999</news:date>
-         <news:categoryId>3</news:categoryId>
+         <news:date>31/12/1998</news:date>
+         <news:categoryId>1</news:categoryId>
       </news:CreateNewsRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request>
